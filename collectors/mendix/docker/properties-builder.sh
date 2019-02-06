@@ -1,10 +1,9 @@
-cat > $PROP_FILE <<EOF
 #Database Name
-dbname=${HYGIEIA_API_ENV_SPRING_DATA_MONGODB_DATABASE:-dashboarddb}
+mendix.dbname=${DB_DATABASE:-dashboard}
 #Database HostName - default is localhost
-dbhost=${MONGO_HOST:-10.0.1.1}
+mendix.dbhost=${MONGO_HOST:-db}
 #Database Port - default is 27017
-dbport=${MONGO_PORT:-27017}
+mendix.dbport=${MONGO_PORT:-27017}
 #Database Username - default is blank
 dbusername=
 #${HYGIEIA_API_ENV_SPRING_DATA_MONGODB_USERNAME:-dashboarduser}
@@ -12,12 +11,12 @@ dbusername=
 dbpassword=
 #${HYGIEIA_API_ENV_SPRING_DATA_MONGODB_PASSWORD:-dbpassword}
 #Collector schedule (required)
-# mendix app url (required) 
-mendix.appname=
+# mendix app url (required)
+mendix.appname=${MENDIX_APPNAME}
 # mendix app username
-mendix.username=
+mendix.username=${MENDIX_USERNAME}
 # mendix app apikeys
-mendix.apikey=
+mendix.apikey=${MENDIX_APIKEY}
 EOF
 echo "
 ===========================================
