@@ -3,13 +3,13 @@
 
 cat > $PROP_FILE <<EOF
 #Database Name
-dbname=${HYGIEIA_API_ENV_SPRING_DATA_MONGODB_DATABASE:-dashboarddb}
+dbname=${DB_DATABASE:-dashboard}
 
 #Database HostName - default is localhost
-dbhost=${MONGO_HOST}
+dbhost=${DB_HOST:-db}
 
 #Database Port - default is 27017
-dbport=${MONGO_PORT:-27017}
+dbport=${DB_PORT:-27017}
 
 
 #Database Username - default is blank
@@ -19,20 +19,20 @@ dbusername=
 dbpassword=
 
 #Collector schedule (required)
-udeploy.cron=0 0/1 * * * *
+udeploy.cron=${UCD_CRON}
 
 #UDeploy server (required) - Can provide multiple
-udeploy.servers[0]=http://40.121.66.132:8095
+udeploy.servers[0]=${UCD_SERVER}
 udeploy.niceNames[0]=
 
 #UDeploy user name (required)
-udeploy.username=admin
+udeploy.username=
 
 #UDeploy password (required)
-udeploy.password=admin@123
+udeploy.password=
 
 # UDeploy token can be used instead of username and password
-udeploy.token=
+udeploy.token=${UCD_TOKEN}
 
 EOF
 
