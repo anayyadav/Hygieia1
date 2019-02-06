@@ -94,6 +94,15 @@
 
         }
 
+
+        ctrl.GroupVelocity = function () {
+            var dataList = [];
+            ctrl.agileManagerDetails[0].hpamSprint.forEach((item) => {
+                dataList.push({ spname: item.sprintname, donestorypoints: item.doneSP })
+            })
+            ctrl.loadgroupVelocityChart(dataList)
+        }
+
         $scope.$on('eventEmitedName', function (event, data) {
             console.log('event fired');
         });
@@ -123,56 +132,160 @@
         //          data: pieData
         //      });
         //  }
+        ctrl.loadgroupVelocityChart = function (dataList) {
+            let data = [];
+            let lables = [];
+            let avg = 0;
+            let expectedVelosity =0;
+            let count = 0
+            dataList.forEach((item, index) => {
+                data.push(item.donestorypoints);
+                count = count + 1;
+                avg = avg + item.donestorypoints;
+                lables.push(item.spname);
+            });
 
-         ctrl.loadlinechart = function (sd,ed,tdasp) {
-             let data = [];
-             let lables = [];
-             lables.push(sd)
-             tdasp.forEach((item, index) => {
-                 data.push(item.storypoints);
-                 lables.push(item.date);      
-             });
-             lables.push(ed)
+            avg = avg/count;
+            var length = lables.length - 1
+            var data2 = [];
+            data2.push(expectedVelosity)
+            
+            for (var i = 0; i < length; i++) {
+                data2.push(expectedVelosity);
+            }
 
-             var rsp = 11111;
-             var length = lables.length - 1
-             console.log(length)
-             var lrsp = rsp / length
-             var data2 = [];
-             data2.push(rsp)
-             for (var i = 0; i < length; i++) {
-                 rsp = rsp - lrsp;
-                 data2.push(parseInt(rsp));
-             }
-             //console.log(data2)
-             //console.log(data)
-             //console.log(lables)
-             //var color = getRandomColorHex();
-             //console.log(color)
-             var linechartdata = {
-                 labels: lables,
-                 datasets: [{
-                     label: "Remaining StoryPoints",
-                     fill: false,
-                     data: data,
-                     borderColor: '#AED6F1',
+            var data3 = [];
+            data3.push(avg)
+            
+            for (var i = 0; i < length; i++) {
+                data3.push(avg);
+            }
+
+            var barchart = {
+                labels: lables,
+                datasets: [{
+                    label: "StoryPoints",
+                    type: 'bar',
+                    fill: true,
+                    data: data,
+                    stack: 'Stack 0',
+                    borderColor: '#AED6F1',
                     backgroundColor: '#AED6F1'
-                     //backgroundColor: '#AED6F1'
-                 },{label:"estimated Velocity",
-                 fill: false,
-                 borderColor: '#FF0000',
+                    //backgroundColor: '#AED6F1'
+                },{
+                    label: "Expected Velocity",
+                    type: 'bar',
+                    fill: false,
+                    stack: 'Stack 1',
+                    borderColor: '#FF0000',
                     backgroundColor: '#FF0000',
-                data:data2}],
-             };
+                    data: data2
+                },{
+                    label: "Average Velocity",
+                    type: 'line',
+                    fill: false,
+                    stack: 'Stack 1',
+                    borderColor: '#FF0000',
+                    backgroundColor: '#FF0000',
+                    data: data3
+                }],
+            };
 
-             var ctx = document.getElementById('myChart').getContext('2d');
-             new Chart(ctx, {
-                 type: 'line',
-                 data: linechartdata,
-                 options: {
-                    
-                     //to get sharp edges instead of smooth curves
-                     responsive: true,
+            var ctx = document.getElementById('myChart2').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: barchart,
+                options: {
+
+                    //to get sharp edges instead of smooth curves
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Group Velocity Chart'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            stacked:true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Sprints'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            stacked:true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Strory Points'
+                            }
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
+                    }
+                }
+            });
+
+        }
+
+        ctrl.loadlinechart = function (sd, ed, tdasp) {
+            let data = [];
+            let lables = [];
+            lables.push(sd)
+            tdasp.forEach((item, index) => {
+                data.push(item.storypoints);
+                lables.push(item.date);
+            });
+            lables.push(ed)
+
+            var rsp = 11111;
+            var length = lables.length - 1
+            console.log(length)
+            var lrsp = rsp / length
+            var data2 = [];
+            data2.push(rsp)
+            for (var i = 0; i < length; i++) {
+                rsp = rsp - lrsp;
+                data2.push(parseInt(rsp));
+            }
+            //console.log(data2)
+            //console.log(data)
+            //console.log(lables)
+            //var color = getRandomColorHex();
+            //console.log(color)
+            var linechartdata = {
+                labels: lables,
+                datasets: [{
+                    label: "Remaining StoryPoints",
+                    fill: false,
+                    data: data,
+                    borderColor: '#AED6F1',
+                    backgroundColor: '#AED6F1'
+                    //backgroundColor: '#AED6F1'
+                }, {
+                    label: "estimated Velocity",
+                    fill: false,
+                    borderColor: '#FF0000',
+                    backgroundColor: '#FF0000',
+                    data: data2
+                }],
+            };
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: linechartdata,
+                options: {
+
+                    //to get sharp edges instead of smooth curves
+                    responsive: true,
                     title: {
                         display: true,
                         text: 'Release Burn Down Chart'
@@ -183,15 +296,7 @@
                     },
                     scales: {
                         xAxes: [{
-                            afterTickToLabelConversion: function (data) {
-                                var xLabels = data.ticks;
-                                console.log(xLabels)
-                                xLabels.forEach(function (labels, i) {
-                                    if (i % 5 != 0) {
-                                        xLabels[i] = '';
-                                    }
-                                });
-                            },
+                            
                             display: true,
                             scaleLabel: {
                                 display: true,
@@ -206,15 +311,15 @@
                             }
                         }]
                     },
-                     elements: {
-                         line: {
-                             tension: 0
-                         }
-                     }
-                 }
-             });
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
+                    }
+                }
+            });
 
-            }
+        }
 
         ctrl.load = function () {
 
@@ -240,17 +345,21 @@
                     var filtered3 = ctrl.agileManagerDetails[0].hpamRBurn.filter(function (item) {
                         return item.releaseid == $scope.widgetConfig.options.releaseid;
                     });
-                    
+                    var filtered4 = ctrl.agileManagerDetails[0].hpamSprint.filter(function (item) {
+                        return item.releaseid == $scope.widgetConfig.options.releaseid;
+                    });
+
                     // ctrl.teamfiltered = ctrl.agileManagerDetails[0].hpamTeam.filter(function (item) {
                     //     return item.workspaceid == $scope.widgetConfig.options.workspaceid;
                     // });
 
                     ctrl.agileManagerDetails[0].hpamFeature = angular.copy(filtered);
-                    ctrl.agileManagerDetails[0].hpamRelease=angular.copy(filtered2)
-                    ctrl.agileManagerDetails[0].hpamRBurn=angular.copy(filtered3)
-                    
+                    ctrl.agileManagerDetails[0].hpamRelease = angular.copy(filtered2)
+                    ctrl.agileManagerDetails[0].hpamRBurn = angular.copy(filtered3)
+                    ctrl.agileManagerDetails[0].hpamSprint = angular.copy(filtered4)
+
                     ctrl.copyAgileManagerDetails[0].hpamFeature = angular.copy(filtered);
-                    ctrl.copyAgileManagerDetails[0].hpamRelease=angular.copy(filtered2)
+                    ctrl.copyAgileManagerDetails[0].hpamRelease = angular.copy(filtered2)
                     // ctrl.uniqueReleaseIds = [...new Set(ctrl.agileManagerDetails[0].hpamBacklog.map(item => {
                     //     if (item.releaseid && item.releaseid.id) {
                     //         return item.releaseid.id;
@@ -286,7 +395,7 @@
                     //     }
                     // }))];                    
                     ctrl.DateAndRemainingSP();
-                   
+                    ctrl.GroupVelocity();
                 });
 
 
@@ -304,7 +413,7 @@
                 controllerAs: 'detail',
                 templateUrl: 'components/widgets/agilemanager/detail.html',
                 size: 'lg'
-                
+
             });
         }
     }
