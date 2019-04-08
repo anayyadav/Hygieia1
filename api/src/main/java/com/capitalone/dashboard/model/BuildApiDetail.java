@@ -1,106 +1,79 @@
 package com.capitalone.dashboard.model;
 
-import org.bson.types.ObjectId;
-
 public class BuildApiDetail {
-	private String status;
-	private String creationdate;
-	private Object expirydate;
-	private String description;
+	private String buildStatus;
+	private Long startTime;
+	private String packageId;
+	private String logs;
 	private String version;
 	private int size;
-	private String packageid;
-	private String mendixversion;
-	private String creator;
-	private String name;
-	private ObjectId id;
-
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
-	public String getStatus() {
-		return status;
+	private String number;
+	private String jobname;
+	private String appname;
+	private String buildUrl;
+	public String getBuildStatus() {
+		return buildStatus;
 	}
-
-	public void setStatus(String status) {
-		this.status = status;
+	public void setBuildStatus(String buildStatus) {
+		this.buildStatus = buildStatus;
 	}
-
-	public String getCreationdate() {
-		return creationdate;
+	public Long getStartTime() {
+		return startTime;
 	}
-
-	public void setCreationdate(String creationdate) {
-		this.creationdate = creationdate;
+	public void setStartTime(Long startTime) {
+		this.startTime = startTime;
 	}
-
-	public Object getExpirydate() {
-		return expirydate;
+	public String getPackageId() {
+		return packageId;
 	}
-
-	public void setExpirydate(Object expirydate) {
-		this.expirydate = expirydate;
+	public void setPackageId(String packageId) {
+		this.packageId = packageId;
 	}
-
-	public String getDescription() {
-		return description;
+	public String getLogs() {
+		return logs;
 	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setLogs(String logs) {
+		this.logs = logs;
 	}
-
 	public String getVersion() {
 		return version;
 	}
-
 	public void setVersion(String version) {
 		this.version = version;
 	}
-
 	public int getSize() {
 		return size;
 	}
-
 	public void setSize(int size) {
 		this.size = size;
 	}
-
-	public String getPackageid() {
-		return packageid;
+	public String getNumber() {
+		return number;
 	}
-
-	public void setPackageid(String packageid) {
-		this.packageid = packageid;
+	public void setNumber(String number) {
+		this.number = number;
 	}
-
-	public String getMendixversion() {
-		return mendixversion;
+	public String getJobname() {
+		return jobname;
 	}
-
-	public void setMendixversion(String mendixversion) {
-		this.mendixversion = mendixversion;
+	public void setJobname(String jobname) {
+		this.jobname = jobname;
 	}
-
-	public String getCreator() {
-		return creator;
+	public String getAppname() {
+		return appname;
 	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
+	public void setAppname(String appname) {
+		this.appname = appname;
 	}
-
-	public String getName() {
-		return name;
+	public String getBuildUrl() {
+		return buildUrl;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setBuildUrl(String buildUrl) {
+		this.buildUrl = buildUrl;
 	}
+	
+	
+	
 
+    
 }

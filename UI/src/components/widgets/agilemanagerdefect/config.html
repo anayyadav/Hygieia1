@@ -1,0 +1,23 @@
+<widget-modal widget-modal-title="Configure Defect Status Widget" class="build-config" ng-init="agilemanagerDConfig.load()">
+    <form name="buildConfigForm" role="form" ng-submit="agilemanagerDConfig.submit(buildConfigForm.$valid,agilemanagerDConfig.collectorItemId)"
+        novalidate="novalidate">
+            <form-group class="text-center" select="ReleaseId" errors="{required: 'Please Select A ReleaseName'}" style="width:400px">
+                
+                <label class="modal-label">Select Release Name </label>
+                <select type="text" name="collectorItemId" ng-change="get(agilemanagerDConfig.selectreleaseIds)" class="form-control" ng-model="agilemanagerDConfig.selectreleaseIds"
+                    typeahead-no-results="noResults" required>
+                    <option ng-repeat="item in agilemanagerDConfig.agileManagerUniqueIds.releaseid" value="{{item}}">{{item}}</option>
+                </select>
+            
+                <label class="modal-label">Select Application Name </label>
+                <select type="text" name="collectorItemId" class="form-control" ng-model="agilemanagerDConfig.selectappIds"
+                    typeahead-no-results="noResults" required multiple>
+                    <option ng-repeat="item in agilemanagerDConfig.agileManagerUniqueIds.appID" value="{{item}}">{{item}}</option>
+                </select>
+        </form-group>
+        <div class="button-row row text-center">
+            <button type="submit" class="btn btn-primary btn-wide">Save</button>
+        </div>
+    </form>
+
+</widget-modal>

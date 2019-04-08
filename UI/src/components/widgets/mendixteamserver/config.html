@@ -1,0 +1,33 @@
+<widget-modal widget-modal-title="Configure Mendix Build Widget" class="build-config" ng-init="repomConfig.load()" >
+    <form name="buildConfigForm" role="form"
+        ng-submit="repomConfig.submit(buildConfigForm.$valid,repomConfig.collectorItemId)" novalidate="novalidate">
+
+        <form-group class="text-center" select="AppId" errors="{required: 'Please Select A AppName'}">
+            <label class="modal-label">Select Application Name</label>
+            <select type="text" name="collectorItemId" ng-change="get(repomConfig.selectappname)" class="form-control" ng-model="repomConfig.selectappname"
+                typeahead-no-results="noResults" required>
+                <option ng-repeat="item in repomConfig.mendixNuildUniqueIds.appname | orderBy" value="{{item}}">{{item}}
+                </option>
+            </select>
+            <div class="form-control" ng-show="noResults">
+                No Results Found
+            </div>
+
+
+			<label class="modal-label">Select Branch Name</label>
+            <select type="text" name="collectorItemId" class="form-control" ng-model="repomConfig.selectBranchname"
+                typeahead-no-results="noResults" required>
+                <option ng-repeat="item in repomConfig.mendixNuildUniqueIds.branchname | orderBy" value="{{item}}">{{item}}
+                </option>
+            </select>
+            <div class="form-control" ng-show="noResults">
+                No Results Found
+            </div>
+        </form-group>
+		       
+
+        <div class="button-row row text-center">
+            <button type="submit" class="btn btn-primary btn-wide">Save</button>
+        </div>
+    </form>
+</widget-modal>

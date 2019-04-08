@@ -1,0 +1,68 @@
+<div class="repo-view">
+    <div class="widget">
+        <div class="widget-heading">
+            Issues, Pulls and Commits per day
+        </div>
+        <div class="widget-body">
+            <chartist class="commit-view ct-octave dash-chart-alt"
+                      chartist-chart-type="Line"
+                      chartist-data="repomView.combinedChartData"
+                      chartist-chart-options="repomView.combinedChartOptions"
+                      chartist-events="repomView.commitChartEvents"
+                    >
+            </chartist>
+        </div>
+    </div>
+
+    <div class="widget">
+        <div class="widget-heading">
+            Summary
+        </div>
+        <div class="widget-body">
+            <table class="table repo-summary-table">
+                <tr>
+                    <td style="color: #04eeff">Commits</td>
+                    <td>{{repomView.lastDayCommitCount}}</td>
+                    <td>{{repomView.lastSevenDaysCommitCount}}</td>
+                    <td>{{repomView.lastFourteenDaysCommitCount}}</td>
+                </tr>
+                <tr>
+                    <td style="color: #04eb0f">Pulls</td>
+                    <td>{{repomView.lastDayPullCount}}</td>
+                    <td>{{repomView.lastsevenDaysPullCount}}</td>
+                    <td>{{repomView.lastfourteenDaysPullCount}}</td>
+                </tr>
+                <tr>
+                    <td style="color: red">Issues</td>
+                    <td>{{repomView.lastDayIssueCount}}</td>
+                    <td>{{repomView.lastsevenDaysIssueCount}}</td>
+                    <td>{{repomView.lastfourteenDaysIssueCount}}</td>
+                </tr>
+                <tr>
+                    <td>Committors</td>
+                    <td>{{repomView.lastDayCommitContributorCount}}</td>
+                    <td>{{repomView.lastSevenDaysCommitContributorCount}}</td>
+                    <td>{{repomView.lastFourteenDaysCommitContributorCount}}</td>
+                </tr>
+                <tr>
+                    <td>Contributors</td>
+                    <td>{{repomView.lastDayPullContributorCount}}</td>
+                    <td>{{repomView.lastsevenDaysPullContributorCount}}</td>
+                    <td>{{repomView.lastfourteenDaysPullContributorCount}}</td>
+                </tr>
+                <tr>
+                    <td>Ideators</td>
+                    <td>{{repomView.lastDayIssueContributorCount}}</td>
+                    <td>{{repomView.lastsevenDaysIssueContributorCount}}</td>
+                    <td>{{repomView.lastfourteenDaysIssueContributorCount}}</td>
+                </tr>
+                <tr class="totals">
+                    <td></td>
+                    <td>Today</td>
+                    <td>Last<br/>7 Days</td>
+                    <td>Last<br/>14 Days</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

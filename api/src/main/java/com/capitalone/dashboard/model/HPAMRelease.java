@@ -4,6 +4,8 @@ public class HPAMRelease {
 
 	private String workspaceid;
 	private Object status;
+	private String appID;
+	private String appName;
 	private String releasename;
 	private String enddate;
 	private String workspacename;
@@ -12,6 +14,18 @@ public class HPAMRelease {
 	private int remainingSP;
 	private String today;
 	
+	public String getAppName() {
+		return appName;
+	}
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+	public String getAppID() {
+		return appID;
+	}
+	public void setAppID(String appID) {
+		this.appID = appID;
+	}
 	public int getRemainingSP() {
 		return remainingSP;
 	}
@@ -68,4 +82,3 @@ public class HPAMRelease {
 	}
 	
 }
-	

@@ -13,62 +13,19 @@
     function AgileManagerWidgetViewController($scope, hpamData, $q, $uibModal) {
 
         var ctrl = this;
-        var builds = [];
-        ctrl.openStoryPoints = [];
-        ctrl.teamfiltered = [];
-        ctrl.agileManagerDetails = [];
-        ctrl.backlogPieChart = [];
-        ctrl.uniqueReleaseIds = [];
-        ctrl.selectedReleaseId = 0;
-        ctrl.selectedReleaseIdfeature = 0;
-        ctrl.uniquefeatureIds = [];
-        ctrl.agileManagerUniqueIds = {
-            releaseid: [],
-            teamid: [],
-            themeid: [],
-            featureid: [],
-            applicationid: [],
-            sprintid: [],
-            selectedreleaseId: '',
-            selectedReleaseIdfeature: '',
-            selectedteam: '',
-            selectedtheme: '',
-            selectedfeature: '',
-            selectedapplication: '',
-            selectedsprint: ''
-        };
+        ctrl.agileManagerDetails = [];    
         ctrl.copyAgileManagerDetails = [];
         ctrl.copyagileManagerDetails = [];
-        // ctrl.onChangeReleaseId = function (releaseId) {
-        //     var arr = [];
+		//$scope.tab1="";
+		ctrl.tab1="";
+		ctrl.tab2="";
+		ctrl.tab3="";
 
-        //     ctrl.agileManagerDetails[0].hpamBacklog.forEach((item, index) => {
-        //         if (item.status == 'Done') {
-        //             arr.push({ id: item.releaseid ? item.releaseid.id : null, status: 'Done' });
-        //         }
-        //         else if (item.status == 'new') {
-        //             arr.push({ id: item.releaseid ? item.releaseid.id : null, status: 'new' });
-        //         }
-        //         else if (item.status == 'In Progress') {
-        //             arr.push({ id: item.releaseid ? item.releaseid.id : null, status: 'Inprogress' })
-        //         }
-
-        //     });
-
-        //     var result = { id: 0, new: 0, Done: 0, Inprogress: 0 };
-        //     arr.forEach((item) => {
-        //         if (item.id == releaseId) {
-        //             result.id = releaseId;
-        //             result[item.status] = result[item.status] + 1;
-        //         }
-        //     });
-
-        //     ctrl.loadChart(result.Done, result.new, result.Inprogress);
-        // }
-
+		
+		
         ctrl.GetFilterBy = function (filterBy, value) {
 
-            var filtered = ctrl.agileManagerDetails[0].hpamFeature.filter(function (item) {
+            var filtered2 = ctrl.agileManagerDetails[0].hpamRelease.filter(function (item) {
                 if (item[filterBy] != null) {
                     return item[filterBy].id.toString().toLowerCase().indexOf(value) > -1;
                 }
@@ -76,22 +33,6 @@
                     return null;
                 }
             });
-        }
-
-        ctrl.DateAndRemainingSP = function () {
-            var tdasp = [];
-            var sd, ed;
-            ctrl.agileManagerDetails[0].hpamRBurn.forEach((item) => {
-                sd = item.startdate;
-                ed = item.enddate;
-                tdasp.push({ date: item.today, storypoints: item.remainingSP })
-
-            })
-            // console.log(sd)
-            // console.log(ed)
-            // console.log(tdasp)
-            ctrl.loadlinechart(sd, ed, tdasp);
-
         }
 
 
@@ -103,90 +44,70 @@
             ctrl.loadgroupVelocityChart(dataList)
         }
 
-        $scope.$on('eventEmitedName', function (event, data) {
-            console.log('event fired');
-        });
 
-        function getRandomColorHex() {
-            var hex = "0123456789ABCDEF",
-                color = "#";
-            for (var i = 1; i <= 6; i++) {
-                color += hex[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
 
-        //  ctrl.loadChart = function (done, newvalue, inprogress) {
-        //      var pieData = {
-        //          labels: ["BackLogs(Done)", "BackLogs(New)", "BackLogs(WIP)"],
-        //          datasets: [{
-        //              data: [done, newvalue, inprogress],
-        //              backgroundColor: ["#00ff00", "#878BB6", "#FF8153"]
-        //          }]
-        //      };
 
-        //      // Get the context of the canvas element we want to select
-        //      var piechart = document.getElementById("pie-chart").getContext("2d");
-        //      new Chart(piechart, {
-        //          type: 'pie',
-        //          data: pieData
-        //      });
-        //  }
         ctrl.loadgroupVelocityChart = function (dataList) {
             let data = [];
             let lables = [];
             let avg = 0;
-            let expectedVelosity =0;
+            let expectedVelosity = 0;
             let count = 0
             dataList.forEach((item, index) => {
                 data.push(item.donestorypoints);
-                count = count + 1;
+                if (item.donestorypoints != 0) {
+                    count = count + 1;
+                }
                 avg = avg + item.donestorypoints;
                 lables.push(item.spname);
             });
 
-            avg = avg/count;
+            avg = avg / count;
             var length = lables.length - 1
             var data2 = [];
             data2.push(expectedVelosity)
-            
+
             for (var i = 0; i < length; i++) {
                 data2.push(expectedVelosity);
             }
 
             var data3 = [];
             data3.push(avg)
-            
             for (var i = 0; i < length; i++) {
-                data3.push(avg);
+                if (i < count - 1) {
+                    data3.push(avg);
+                }
+                else {
+                    data3.push(0);
+                }
             }
 
             var barchart = {
                 labels: lables,
                 datasets: [{
-                    label: "StoryPoints",
+                    label: "Velocity",
                     type: 'bar',
                     fill: true,
                     data: data,
                     stack: 'Stack 0',
-                    borderColor: '#AED6F1',
-                    backgroundColor: '#AED6F1'
-                    //backgroundColor: '#AED6F1'
-                },{
+                    borderColor: '#6495ed',
+                    backgroundColor: '#6495ed'
+
+                }, {
                     label: "Expected Velocity",
                     type: 'bar',
                     fill: false,
                     stack: 'Stack 1',
-                    borderColor: '#FF0000',
-                    backgroundColor: '#FF0000',
+                    borderColor: '#AED6F1',
+                    backgroundColor: '#AED6F1',
                     data: data2
-                },{
+                }, {
                     label: "Average Velocity",
                     type: 'line',
                     fill: false,
                     stack: 'Stack 1',
-                    borderColor: '#FF0000',
-                    backgroundColor: '#FF0000',
+                    borderColor: '#FFA500',
+                    backgroundColor: '#FFA500',
                     data: data3
                 }],
             };
@@ -201,7 +122,7 @@
                     responsive: true,
                     title: {
                         display: true,
-                        text: 'Group Velocity Chart'
+                        text: 'Sprint Velocity Chart'
                     },
                     tooltips: {
                         mode: 'index',
@@ -210,7 +131,7 @@
                     scales: {
                         xAxes: [{
                             display: true,
-                            stacked:true,
+                            stacked: true,
                             scaleLabel: {
                                 display: true,
                                 labelString: 'Sprints'
@@ -218,7 +139,7 @@
                         }],
                         yAxes: [{
                             display: true,
-                            stacked:true,
+                            stacked: true,
                             scaleLabel: {
                                 display: true,
                                 labelString: 'Strory Points'
@@ -235,172 +156,265 @@
 
         }
 
-        ctrl.loadlinechart = function (sd, ed, tdasp) {
-            let data = [];
-            let lables = [];
-            lables.push(sd)
-            tdasp.forEach((item, index) => {
-                data.push(item.storypoints);
-                lables.push(item.date);
-            });
-            lables.push(ed)
 
-            var rsp = 11111;
-            var length = lables.length - 1
-            console.log(length)
-            var lrsp = rsp / length
-            var data2 = [];
-            data2.push(rsp)
-            for (var i = 0; i < length; i++) {
-                rsp = rsp - lrsp;
-                data2.push(parseInt(rsp));
+        ctrl.loadReleaseStatus = function (agileManagerDetails) {
+            var output = [];
+            var n = 0;
+            var done = 0, inprogress = 0, intesting = 0, url;
+            var size = ($scope.widgetConfig.options.appID).length;
+
+            for (var i = 0; i < size; i++) {
+                var f = [];
+                f = agileManagerDetails[0].hpamRelease.filter(function (item) {
+                    return item.releaseid == $scope.widgetConfig.options.releaseid && item.appID == $scope.widgetConfig.options.appID[i];
+                });
+
+                n = n + f[0]["status"].New;
+                done = done + f[0]["status"].Done;
+                inprogress = inprogress + f[0]["status"].In_Progress;
+                intesting = intesting + f[0]["status"].In_testing;
+                url = f[0]["status"].Url;
+
+
             }
-            //console.log(data2)
-            //console.log(data)
-            //console.log(lables)
-            //var color = getRandomColorHex();
-            //console.log(color)
-            var linechartdata = {
-                labels: lables,
-                datasets: [{
-                    label: "Remaining StoryPoints",
-                    fill: false,
-                    data: data,
-                    borderColor: '#AED6F1',
-                    backgroundColor: '#AED6F1'
-                    //backgroundColor: '#AED6F1'
-                }, {
-                    label: "estimated Velocity",
-                    fill: false,
-                    borderColor: '#FF0000',
-                    backgroundColor: '#FF0000',
-                    data: data2
-                }],
-            };
+            output.push({ ne: n, Done: done, In_Progress: inprogress, In_testing: intesting, url: url });
+            return output;
+        }
 
-            var ctx = document.getElementById('myChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: linechartdata,
-                options: {
 
-                    //to get sharp edges instead of smooth curves
-                    responsive: true,
-                    title: {
-                        display: true,
-                        text: 'Release Burn Down Chart'
-                    },
-                    tooltips: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    scales: {
-                        xAxes: [{
-                            
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Date'
-                            }
-                        }],
-                        yAxes: [{
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Strory Points'
-                            }
-                        }]
-                    },
-                    elements: {
-                        line: {
-                            tension: 0
-                        }
-                    }
-                }
+        ctrl.loadCurrentSprintStatus = function (agileManagerDetails) {
+            var output = [];
+            var n = 0;
+            var done = 0, inprogress = 0, intesting = 0;
+            var sprintname;
+            var size = ($scope.widgetConfig.options.appID).length;
+
+            for (var i = 0; i < size; i++) {
+                var f = [];
+                f = agileManagerDetails[0].hpamCurrentSprint.filter(function (item) {
+                    return item.releaseid == $scope.widgetConfig.options.releaseid && item.appID == $scope.widgetConfig.options.appID[i];
+                });
+
+                sprintname = f[0].sprintname;
+                n = n + f[0]["status"].New;
+                done = done + f[0]["status"].Done;
+                inprogress = inprogress + f[0]["status"].In_Progress;
+                intesting = intesting + f[0]["status"].In_testing;
+            }
+            output.push({ ne: n, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
+            return output;
+        }
+
+        ctrl.loadFirstnextSprintStatus = function (agileManagerDetails) {
+            var output = [];
+            var n = 0;
+            var done = 0, inprogress = 0, intesting = 0;
+            var sprintname;
+            var size = ($scope.widgetConfig.options.appID).length;
+
+            for (var i = 0; i < size; i++) {
+                var f = [];
+                f = agileManagerDetails[0].hpamFirstnext.filter(function (item) {
+                    return item.releaseid == $scope.widgetConfig.options.releaseid && item.appID == $scope.widgetConfig.options.appID[i];
+                });
+
+                sprintname = f[0].sprintname;
+				
+				//ctrl.tab1= sprintname;
+                n = n + f[0]["status"].New;
+                done = done + f[0]["status"].Done;
+                inprogress = inprogress + f[0]["status"].In_Progress;
+                intesting = intesting + f[0]["status"].In_testing;
+            }
+            output.push({ ne: n, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
+            return output;
+        }
+
+        ctrl.loadSecondnextSprintStatus = function (agileManagerDetails) {
+            var output = [];
+            var n = 0;
+            var done = 0, inprogress = 0, intesting = 0;
+            var sprintname;
+            var size = ($scope.widgetConfig.options.appID).length;
+
+            for (var i = 0; i < size; i++) {
+                var f = [];
+                f = agileManagerDetails[0].hpamSecondnext.filter(function (item) {
+                    return item.releaseid == $scope.widgetConfig.options.releaseid && item.appID == $scope.widgetConfig.options.appID[i];
+                });
+
+                sprintname = f[0].sprintname;
+				//ctrl.tab2= sprintname;
+                n = n + f[0]["status"].New;
+                done = done + f[0]["status"].Done;
+                inprogress = inprogress + f[0]["status"].In_Progress;
+                intesting = intesting + f[0]["status"].In_testing;
+            }
+            output.push({ ne: n, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
+            return output;
+        }
+
+        ctrl.loadThirdnextSprintStatus = function (agileManagerDetails) {
+            var output = [];
+            var n = 0;
+            var done = 0, inprogress = 0, intesting = 0;
+            var sprintname;
+            var size = ($scope.widgetConfig.options.appID).length;
+
+            for (var i = 0; i < size; i++) {
+                var f = [];
+                f = agileManagerDetails[0].hpamThirdnext.filter(function (item) {
+                    return item.releaseid == $scope.widgetConfig.options.releaseid && item.appID == $scope.widgetConfig.options.appID[i];
+                });
+
+                sprintname = f[0].sprintname;
+				//ctrl.tab3= sprintname;
+                n = n + f[0]["status"].New;
+                done = done + f[0]["status"].Done;
+                inprogress = inprogress + f[0]["status"].In_Progress;
+                intesting = intesting + f[0]["status"].In_testing;
+            }
+            output.push({ ne: n, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
+            return output;
+        }
+
+
+        ctrl.loadSpikecards = function (agileManagerDetails) {
+            var output = [];
+            var spikeCard = 0;
+            var size = ($scope.widgetConfig.options.appID).length;
+
+            for (var i = 0; i < size; i++) {
+                var f = [];
+                f = agileManagerDetails[0].hpamSpikedata.filter(function (item) {
+                    return item.releaseid == $scope.widgetConfig.options.releaseid && item.appID == $scope.widgetConfig.options.appID[i];
+                });
+
+                spikeCard = spikeCard + f[0].spikeCount;
+            }
+            output.push({ spikeCount: spikeCard });
+            return output;
+        }
+
+        ctrl.sumStroryPoint = function (inputData) {
+            var sprintname;
+            var sprintid;
+            var doneSP = 0;
+            var output = []
+            for (var i = 0; i < inputData.length; i++) {
+                sprintname = inputData[i].sprintname;
+                sprintid = inputData[i].sprintid;
+                doneSP = doneSP + inputData[i].doneSP;
+                
+            }
+
+
+            output.push({ sprintname: sprintname, sprintid: sprintid, doneSP: doneSP })
+            return output;
+        }
+
+        ctrl.loadhpamSprint = function (agileManagerDetails) {
+            var output = [];
+            var sprint = []
+            var sprintID = [];
+            var f = [];
+            var f2 = [];
+            var hpamSprint = [];
+            var size = ($scope.widgetConfig.options.appID).length;
+            f = agileManagerDetails[0].hpamSprint.filter(function (item) {
+                return item.releaseid == $scope.widgetConfig.options.releaseid && item.appID == $scope.widgetConfig.options.appID[0];
             });
+
+            for (var i = 0; i < f.length; i++) {
+                sprintID.push(f[i].sprintid);
+            }
+
+            for (var k = 0; k < size; k++) {
+                var f1 = []
+                f1 = agileManagerDetails[0].hpamSprint.filter(function (item) {
+                    return item.releaseid == $scope.widgetConfig.options.releaseid && item.appID == $scope.widgetConfig.options.appID[k];
+                });
+
+                for (var j = 0; j < f1.length; j++) {
+                    sprint.push(f1[j]);
+                }
+
+            }
+
+            for (var i = 0; i < sprintID.length; i++) {
+                f2 = sprint.filter(function (item) {
+                    return item.sprintid == sprintID[i];
+                });
+                output = ctrl.sumStroryPoint(f2);
+                hpamSprint.push(output[0]);
+
+            }
+
+            return hpamSprint;
 
         }
 
         ctrl.load = function () {
-
-            //$scope.widgetConfig.options.workspaceid
-
             hpamData.details($scope.widgetConfig.componentId).
                 then(function (data) {
                     ctrl.agileManagerDetails = angular.copy(data.data);
-                    //ctrl.openStoryPoints = angular.copy(data.data)
-
-                    //console.log(ctrl.openStoryPoints)
                     ctrl.copyAgileManagerDetails = angular.copy(data.data);
-                    //ctrl.copyopenStoryPoints = angular.copy(data.data);
 
-                    var filtered = ctrl.agileManagerDetails[0].hpamFeature.filter(function (item) {
-                        return item.releaseid == $scope.widgetConfig.options.releaseid;
-                    });
+                    var filtered2 = ctrl.loadReleaseStatus(ctrl.agileManagerDetails);
+                    var filtered3 = ctrl.loadFirstnextSprintStatus(ctrl.agileManagerDetails);
+                    var filtered4 = ctrl.loadSecondnextSprintStatus(ctrl.agileManagerDetails);
+                    var filtered5 = ctrl.loadThirdnextSprintStatus(ctrl.agileManagerDetails);
+                    var filtered6 = ctrl.loadCurrentSprintStatus(ctrl.agileManagerDetails);
+                    var filtered7 = ctrl.loadSpikecards(ctrl.agileManagerDetails);
+                    var filtered8 = ctrl.loadhpamSprint(ctrl.agileManagerDetails)
+                    ctrl.agileManagerDetails[0].hpamRelease = angular.copy(filtered2);
+                    ctrl.agileManagerDetails[0].hpamFirstnext = angular.copy(filtered3);
+                    ctrl.agileManagerDetails[0].hpamSecondnext = angular.copy(filtered4);
+                    ctrl.agileManagerDetails[0].hpamThirdnext = angular.copy(filtered5);
+                    ctrl.agileManagerDetails[0].hpamCurrentSprint = angular.copy(filtered6);
+                    ctrl.agileManagerDetails[0].hpamSpikedata = angular.copy(filtered7);
+                    ctrl.agileManagerDetails[0].hpamSprint = angular.copy(filtered8);
 
-                    var filtered2 = ctrl.agileManagerDetails[0].hpamRelease.filter(function (item) {
-                        return item.releaseid == $scope.widgetConfig.options.releaseid;
-                    });
+                    ctrl.copyAgileManagerDetails[0].hpamRelease = angular.copy(filtered2);
+                    ctrl.copyAgileManagerDetails[0].hpamFirstnext = angular.copy(filtered3);
+					ctrl.tab1 = filtered3[0].sprintname;
+					
+                    ctrl.copyAgileManagerDetails[0].hpamSecondnext = angular.copy(filtered4);
+					ctrl.tab2 = filtered4[0].sprintname;
+                    ctrl.copyAgileManagerDetails[0].hpamThirdnext = angular.copy(filtered5);
+					ctrl.tab3 = filtered5[0].sprintname;
+                    ctrl.copyAgileManagerDetails[0].hpamCurrentSprint = angular.copy(filtered6);
+                    ctrl.copyAgileManagerDetails[0].hpamSpikedata = angular.copy(filtered7);
+                    ctrl.copyAgileManagerDetails[0].hpamSprint = angular.copy(filtered8);
+					ctrl.minitabs = [
+            { name: ctrl.tab1 },
+            { name: ctrl.tab2 },
+            { name: ctrl.tab3 }
 
-                    var filtered3 = ctrl.agileManagerDetails[0].hpamRBurn.filter(function (item) {
-                        return item.releaseid == $scope.widgetConfig.options.releaseid;
-                    });
-                    var filtered4 = ctrl.agileManagerDetails[0].hpamSprint.filter(function (item) {
-                        return item.releaseid == $scope.widgetConfig.options.releaseid;
-                    });
-
-                    // ctrl.teamfiltered = ctrl.agileManagerDetails[0].hpamTeam.filter(function (item) {
-                    //     return item.workspaceid == $scope.widgetConfig.options.workspaceid;
-                    // });
-
-                    ctrl.agileManagerDetails[0].hpamFeature = angular.copy(filtered);
-                    ctrl.agileManagerDetails[0].hpamRelease = angular.copy(filtered2)
-                    ctrl.agileManagerDetails[0].hpamRBurn = angular.copy(filtered3)
-                    ctrl.agileManagerDetails[0].hpamSprint = angular.copy(filtered4)
-
-                    ctrl.copyAgileManagerDetails[0].hpamFeature = angular.copy(filtered);
-                    ctrl.copyAgileManagerDetails[0].hpamRelease = angular.copy(filtered2)
-                    // ctrl.uniqueReleaseIds = [...new Set(ctrl.agileManagerDetails[0].hpamBacklog.map(item => {
-                    //     if (item.releaseid && item.releaseid.id) {
-                    //         return item.releaseid.id;
-                    //     }
-                    // }
-                    // ))];
-
-                    //ctrl.agileManagerUniqueIds.releaseid = [...new Set(ctrl.agileManagerDetails[0].hpamFeature.map(item => item.releaseid ))];
-                    // ctrl.agileManagerUniqueIds.teamid = [...new Set(ctrl.agileManagerDetails[0].hpamBacklog.map(item => {
-                    //     if (item.teamid && item.teamid.id){
-                    //         return item.teamid.id;
-                    //     }
-                    // }))];
-                    // ctrl.agileManagerUniqueIds.themeid = [...new Set(ctrl.agileManagerDetails[0].hpamBacklog.map(item => {
-                    //     if (item.themeid && item.themeid.id){
-                    //         return item.themeid.id;
-                    //     }
-                    // } ))];
-                    // ctrl.agileManagerUniqueIds.featureid = [...new Set(ctrl.agileManagerDetails[0].hpamBacklog.map(item => {
-                    //     if (item.featureid && item.featureid.id){
-                    //         return item.featureid.id;
-                    //     }
-                    // }))];
-                    // ctrl.agileManagerUniqueIds.applicationid = [...new Set(ctrl.agileManagerDetails[0].hpamBacklog.map(item => {
-                    //     if (item.applicationid && item.applicationid.id){
-                    //         return item.applicationid.id;
-                    //     }
-                    // }
-                    // ))];
-                    // ctrl.agileManagerUniqueIds.sprintid = [...new Set(ctrl.agileManagerDetails[0].hpamBacklog.map(item => {
-                    //     if (item.sprintid && item.sprintid.id){
-                    //         return item.sprintid.id;
-                    //     }
-                    // }))];                    
-                    ctrl.DateAndRemainingSP();
+        ];
+		ctrl.miniWidgetView = ctrl.minitabs[0].name;
+        ctrl.miniToggleView = function (index) {
+            ctrl.miniWidgetView = typeof ctrl.minitabs[index] === 'undefined' ? ctrl.minitabs[0].name : ctrl.minitabs[index].name;
+        };
+		
                     ctrl.GroupVelocity();
                 });
+				
 
 
         }
+	
+		ctrl.pieOptions = {
+            donut: true,
+            donutWidth: 20,
+            startAngle: 270,
+            total: 200,
+            showLabel: false
+        };
 
+        
+	
+		
         ctrl.open = function (url) {
             window.open(url);
         }

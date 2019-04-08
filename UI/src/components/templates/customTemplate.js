@@ -30,7 +30,7 @@
             {name: "Widget"},
             {name: "Pipeline"},
             {name: "Cloud"},
-            {name: "Mendix Cloud"}
+            {name: "Mendix"}
         ];
         
 

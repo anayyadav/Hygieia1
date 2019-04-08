@@ -12,7 +12,14 @@ public class HPAMSprint {
 	private String today;
 	private String sprintid;
 	private String sprintname ;
+	private String appID;
 	
+	public String getAppID() {
+		return appID;
+	}
+	public void setAppID(String appID) {
+		this.appID = appID;
+	}
 	public String getWorkspaceid() {
 		return workspaceid;
 	}

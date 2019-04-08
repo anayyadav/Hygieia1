@@ -11,7 +11,7 @@
 
                     <span class="btn" ng-repeat="tab in template.tabs" ng-click="template.toggleView($index)"
                           ng-class="tab.name == template.widgetView ? 'btn-primary' : 'btn-default'">
-                        <span ng-class="tab.name === 'Widget' ? 'fa fa-th' : tab.name === 'Pipeline' ? 'fa fa-th' : tab.name === 'Mendix' ? 'fa fa-task' : 'fa fa-cloud'"></span>
+                        <span ng-class="tab.name === 'Widget' ? 'fa fa-th' : tab.name === 'Pipeline' ? 'fa fa-task' : 'fa fa-cloud'"></span>
                         {{tab.name}}
                     </span>
 
@@ -31,15 +31,14 @@
                         <div ng-if="ctrl.scoreWidgetEnabled">
                             <score-view-widget dashboard-id="{{ctrl.dashboard.id}}" rate-it-options="ctrl.scoreRateItOptionsWidget"></score-view-widget>
                         </div>
-                        <widget name="feature" widget-title="Feature"></widget>
-                        <widget name="repo"></widget>
-                        
+                        <widget name="Story Cards" widget-title="Story Cards"></widget>
+                        <widget name="mendixteamserver"></widget>
                         </div>
                 </div>
              </div>
 
             <div class="col-md-6">
-                <widget name="build"></widget>
+                <widget name="mendixbuild"></widget>
                 <div class="container-fluid">
                     <ul class="nav nav-tabs">
                         <li class="text-lg auth-modal-tab" ng-repeat="tab in template.minitabs" ng-click="template.miniToggleView($index)"
@@ -49,19 +48,27 @@
                         </li>
                         </span>
                     </ul>
-                </div>
-                <div class="container-fluid" widget-container dashboard="ctrl.dashboard" ng-if="template.miniWidgetView == 'Quality'">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <widget name="codeanalysis" widget-title="Quality"></widget>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="container-fluid" widget-container dashboard="ctrl.dashboard" ng-if="template.miniWidgetView == 'Performance'">
                     <div class="row">
                         <div class="col-xs-12">
                             <widget name="Performance" widget-title="Performance"></widget>
+                        </div>
+                    </div>
+                </div>
+				<div class="container-fluid" widget-container dashboard="ctrl.dashboard" ng-if="template.miniWidgetView == 'Defect Status'">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <widget name="Defect"></widget>
+                        </div>
+                    </div>
+                </div>
+				<div class="container-fluid" widget-container dashboard="ctrl.dashboard" ng-if="template.miniWidgetView == 'Quality'">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <widget name="codeanalysis" widget-title="Quality"></widget>
                         </div>
                     </div>
                 </div>
@@ -99,21 +106,4 @@
             </div>
         </div>
     </div>
-
-    <div class="container-fluid" widget-container dashboard="ctrl.dashboard" ng-if="template.widgetView == 'Mendix'">
-        <div class="row">
-            <div class="col-xs-12">
-                <widget name=" mendixbuild" widget-title="MendixBuild"></widget>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <widget name=" mendixdeploy" widget-title="MendixDeploy"></widget>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <widget name=" mendixteamserver" widget-title="MendixTeamServer"></widget>
-            </div>
-        </div>
-    </div></div>
+</div>

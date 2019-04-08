@@ -1,54 +1,20 @@
 <widget-modal widget-modal-title="AgileManager Widget" class="build-config" ng-init="agilemanagerConfig.load()">
     <form name="buildConfigForm" role="form" ng-submit="agilemanagerConfig.submit(buildConfigForm.$valid,agilemanagerConfig.collectorItemId)"
         novalidate="novalidate">
-        
             <form-group class="text-center" select="ReleaseId" errors="{required: 'Please Select A ReleaseName'}" style="width:400px">
+                
                 <label class="modal-label">Select Release Name </label>
-                <select type="text" name="collectorItemId" class="form-control" ng-model="agilemanagerConfig.selectreleaseIds"
+                <select type="text" name="collectorItemId" ng-change="get(agilemanagerConfig.selectreleaseIds)" class="form-control" ng-model="agilemanagerConfig.selectreleaseIds"
                     typeahead-no-results="noResults" required>
-                    <option ng-repeat="item in agilemanagerConfig.agileManagerUniqueIds.releaseid" value="{{item}}">{{item}}</option>
+                    <option ng-repeat="item in agilemanagerConfig.agileManagerUniqueIds.releaseid | orderBy" value="{{item}}">{{item}}</option>
                 </select>
             
-                <!-- <div class="form-control" ng-show="noResults">
-                    No Results Found
-                </div>  -->
-            <!-- <div class="form-group" style="width:400px">
-                <label>Select WorkSpace Name</label>
-                <select ng-model="agilemanagerConfig.selectedworkspaceIds" ng-change="agilemanagerConfig.onChnageReleaseId(agilemanagerConfig.selectedReleaseId)"
-                    class="form-control col-2">
-                    <option ng-repeat="item in agilemanagerConfig.agileManagerUniqueIds.workspaceid" value="{{item}}">{{item}}</option>
+                <label class="modal-label">Select Application Name </label>
+                <select type="text" name="collectorItemId" class="form-control" ng-model="agilemanagerConfig.selectappIds"
+                    typeahead-no-results="noResults" required multiple>
+                    <option ng-repeat="item in agilemanagerConfig.agileManagerUniqueIds.appID | orderBy" value="{{item}}">{{item}}</option>
                 </select>
-            </div> -->
-            
-            
-                <label class="modal-label">Set Expected Velocity</label>
-                  <input type="text" name="collectorItemId" class="form-control" placeholder="Example : 12000"
-           ng-model="buildConfig.collectorItemId"
-                  uib-typeahead="item as item.niceName + ' : ' + item.description for item in getJobs($viewValue)" typeahead-focus
-                  typeahead-min-length="0"
-                  typeahead-wait-ms="250"
-                  autocomplete="off"
-           typeahead-no-results="noResults"
-                  required>
-    
-           
         </form-group>
-<!--
-        <form-group class="text-center" input="buildDurationThreshold" errors="{required:'Build threshold is required', pattern: 'Please enter a number'}">
-            <label class="modal-label">Build duration threshold</label>
-            <input type="text" name="buildDurationThreshold" class="form-control-inline text-center" ng-model="mendixbuildConfig.buildDurationThreshold"
-                size="3" minlength="1" maxlength="3" pattern="\d*\.?\d*" required>&nbsp;&nbsp;&nbsp;minutes
-        </form-group>
-
-        <hr/>
-
-        <form-group input="buildConsecutiveFailureThreshold" class="text-center" errors="{required:'Takeover criteria is required', pattern:'Please enter a number'}">
-            <label class="modal-label">Alert takeover criteria:</label>
-            <input type="text" name="buildConsecutiveFailureThreshold" class="form-control-inline text-center" ng-model="mendixbuildConfig.buildConsecutiveFailureThreshold"
-                size="1" minlength="1" maxlength="3" pattern="\d*\.?\d*" required>&nbsp;&nbsp;&nbsp;consecutive build
-            fails
-        </form-group>
--->
         <div class="button-row row text-center">
             <button type="submit" class="btn btn-primary btn-wide">Save</button>
         </div>

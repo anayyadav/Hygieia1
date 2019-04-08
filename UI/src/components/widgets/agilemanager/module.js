@@ -5,7 +5,7 @@
         config = {
             view: {
                 defaults: {
-                    title: 'AgileManager' // widget title
+                    title: 'Story Cards' // widget title
                 },
                 controller: 'AgileManagerWidgetViewController',
                 controllerAs: 'agileManagerView',
@@ -18,7 +18,7 @@
             },
            
             getState: getState,
-            collectors: ['agilemanager']
+            collectors: ['Story Cards']
         };
 
     angular
@@ -28,7 +28,7 @@
     register.$inject = ['widgetManagerProvider', 'WidgetState'];
     function register(widgetManagerProvider, WidgetState) {
         widget_state = WidgetState;
-        widgetManagerProvider.register('agilemanager', config);
+        widgetManagerProvider.register('Story Cards', config);
     }
 
     function getState(widgetConfig) {

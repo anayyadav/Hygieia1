@@ -1,0 +1,186 @@
+<div class="feature-view">
+    <div class="widget-body " id="left" style=" margin:0; ">
+        <div class="widget-body">
+            <!-- <label style=" margin-left:180px;">View in AGM</label> -->
+            <div>
+                <label>Overall Defect Status</label>
+            </div>
+        </div>
+        <div class="widget-body " fit-text=".build-summary-count > span" fit-text-max="40">
+            <div class="row" ng-repeat="item in agileManagerDView.copyAgileManagerDetails[0].hpamDefectdata">
+                <div class="col-xs-2">
+                    <div><label class="align-left">Defects</label></div>
+                    <div><label class="align-left">Status</label> </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-open">
+                        <span>{{item.ne}}</span>
+                    </div>
+                    <div>New</div>
+                </div>
+				<div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.open}}</span>
+                    </div>
+                    <div>Open</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.defferred}}</span>
+                    </div>
+                    <div>Defferred</div>
+                </div>
+               
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.rejected}}</span>
+                    </div>
+                    <div>Rejected</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.duplicate}}</span>
+                    </div>
+                    <div>Duplicate</div>
+                </div>
+				 <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.pclose}}</span>
+                    </div>
+                    <div>Propose Close</div>
+                </div>
+                
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.fixed}}</span>
+                    </div>
+                    <div>Fixed</div>
+                </div>
+				<div class="col-xs-2">
+                    <div class=" story-done">
+                        <span>{{item.close}}</span>
+                    </div>
+                    <div>Closed</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="widget-body " id="left" style=" margin:0;"
+        ng-repeat="item in agileManagerDView.copyAgileManagerDetails[0].hpamCurrentSprintDefect">
+        <label style="text-align:left;width: 100%">Current {{item.sprintname}} Status</label>
+        <div class="widget-body left" fit-text=".build-summary-count > span" fit-text-max="40">
+            <div class="row" ng-repeat="item in agileManagerDView.copyAgileManagerDetails[0].hpamCurrentSprintDefect">
+                <div class="col-xs-2">
+                    <div><label class="align-left">Defects</label></div>
+                    <div><label class="align-left">Status</label> </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-open">
+                        <span>{{item.ne}}</span>
+                    </div>
+                    <div>New</div>
+                </div>
+				<div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.open}}</span>
+                    </div>
+                    <div>Open</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.defferred}}</span>
+                    </div>
+                    <div>Defferred</div>
+                </div>
+               
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.rejected}}</span>
+                    </div>
+                    <div>Rejected</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.duplicate}}</span>
+                    </div>
+                    <div>Duplicate</div>
+                </div>
+				 <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.pclose}}</span>
+                    </div>
+                    <div>Propose Close</div>
+                </div>
+                
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.fixed}}</span>
+                    </div>
+                    <div>Fixed</div>
+                </div>
+				<div class="col-xs-2">
+                    <div class=" story-done">
+                        <span>{{item.close}}</span>
+                    </div>
+                    <div>Closed</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <br>
+    <div class="widget-body">
+        <ul class="nav nav-tabs" ng-init="agileManagerDView.tab='Sprint 1'">
+            <li class="text-standard auth-modal-tab"
+				ng-class="agileManagerDView.tab == item.sprintname ? 'active' : ''"
+                ng-repeat="item in agileManagerDView.copyAgileManagerDetails[0].hpamPerviousSprintDefect">
+                <a class="textColor-Performance" ng-click="agileManagerDView.tab= item.sprintname">
+                    {{item.sprintname}}</a>
+            </li>
+            </span>
+        </ul>
+	<br>
+	<div class="widget-body left" fit-text=".build-summary-count > span" fit-text-max="40">
+        <div ng-repeat="item in agileManagerDView.copyAgileManagerDetails[0].hpamPerviousSprintDefect"
+            ng-show="agileManagerDView.tab === item.sprintname">
+            <div class="col-xs-2">
+                <div><label class="align-left">Defects</label></div>
+                <div><label class="align-left">Status</label> </div>
+            </div>
+            <div class="col-xs-2">
+                <div class=" story-open">
+                    <span>{{item.ne}}</span>
+                </div>
+                <div>New</div>
+            </div>
+			<div class="col-xs-2">
+                <div class=" story-wip">
+                    <span>{{item.open}}</span>
+                </div>
+                <div>Open</div>
+            </div>
+            <div class="col-xs-2">
+                <div class="  story-wip">
+                    <span>{{item.defferred}}</span>
+                </div>
+                <div>Defferred</div>
+            </div>
+            <div class="col-xs-2">
+                <div class="  story-wip">
+                    <span>{{item.pclose}}</span>
+                </div>
+                <div>Propose Close</div>
+            </div>
+            <div class="col-xs-2">
+                <div class="  story-wip">
+                    <span>{{item.fixed}}</span>
+                </div>
+                <div>Fixed</div>
+            </div>
+            
+        </div>
+    </div>
+	</div>

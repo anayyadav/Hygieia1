@@ -104,7 +104,7 @@
                 componentId: $scope.widgetConfig.componentId,
             };
 
-            console.log($scope.widgetConfig.componentId);
+          
             var count =0;
             collectorData.itemsByType('appPerformance').then(function(data){
                 data.forEach(function(element){

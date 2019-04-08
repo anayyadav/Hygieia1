@@ -1,0 +1,147 @@
+<style>
+    /* Popup container - can be anything you want */
+    .popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* The actual popup */
+    .popup .popuptext {
+        visibility: hidden;
+        width: 160px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -80px;
+    }
+
+    /* Popup arrow */
+    .popup .popuptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+    }
+
+    /* Toggle this class - hide and show the popup */
+    .popup .show {
+        visibility: visible;
+        -webkit-animation: fadeIn 1s;
+        animation: fadeIn 1s;
+    }
+
+    /* Add animation (fade in the popup) */
+    @-webkit-keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+</style>
+
+<div class="row ca-view">
+
+    <div class="container-fluid">
+        <ul class="nav nav-tabs">
+            <li class="text-standard auth-modal-tab" ng-repeat="tab in qaWidget.minitabs"
+                ng-click="qaWidget.miniToggleView($index)"
+                ng-class="tab.name == qaWidget.miniWidgetView ? 'active' : ''">
+                <a class="textColor-Performance" data-toggle="tab">{{tab.name}}</a>
+            </li>
+            </span>
+        </ul>
+    </div>
+    <br>
+    <div class="container-fluid" style="background-color:	white; color: black;" ng-if="qaWidget.miniWidgetView == 'Defect Rejection Ratio'" ng-controller="qaWidget.DefactRatio">
+        <br>
+        <div class="popup" style=" float:right;" onclick="myFunction1()"> <i class="fa fa-info-circle"
+                style="font-size:20px"></i>
+            <span class="popuptext" id="myPopup1">Metrics to help teams towards improving the quality of the testing</span>
+        </div>
+        <canvas id="myChart3" style="background-color:	white; color: black;"></canvas>
+    </div>
+    <!--Defect Ageing scan tab-->
+
+    <div class="container-fluid" style="background-color:	white; color: black;" ng-if="qaWidget.miniWidgetView == 'Defect Aging'" ng-controller="qaWidget.DefactAgeing">
+        <br>
+        <div class="popup" style=" float:right;" onclick="myFunction2()"> <i class="fa fa-info-circle"
+                style="font-size:20px"></i>
+            <span class="popuptext" id="myPopup2">Metrics to help teams monitor open defects which needs attention</span>
+        </div>
+        <canvas id="myChart12" style="background-color:	white;" ></canvas>
+    </div>
+    <!--Defect Ageing scan tab-->
+
+    <!--Open Source scan tab -->
+    <div class="container-fluid"  style="background-color:	white; color: black;"ng-if="qaWidget.miniWidgetView == 'Defect Concentration'" ng-controller="qaWidget.DefactConcRatio">
+        <br>
+        <div class="popup" style=" float:right;" onclick="myFunction3()"> <i class="fa fa-info-circle"
+                style="font-size:20px"></i>
+            <span class="popuptext" id="myPopup3">Metrics to help the DEV teams to validate the quality of code that is being checked in</span>
+        </div>
+        <canvas id="myChart4" style="background-color:	white;" ></canvas>
+    </div>
+    <!--Open Source scan tab -->
+    
+    <!-- Test Results tab-->
+    <div class="container-fluid" style="background-color:	white; color: black;" ng-if="qaWidget.miniWidgetView == 'Defect Slippage'">
+        <br>
+        <div class="popup" style=" float:right;" onclick="myFunction4()"> <i class="fa fa-info-circle"
+                style="font-size:20px"></i>
+            <span class="popuptext" id="myPopup4">Metrics to help improvise quality & effectiveness of testing and minimize defect slippage</span>
+        </div>
+        <div>Work in progress</div>
+        <canvas id="myChart2" style="background-color:	white;"></canvas>
+    </div>
+    <!-- Test Results tab-->
+</div>
+
+<script>
+    // When the user clicks on div, open the popup
+    function myFunction1() {
+        var popup = document.getElementById("myPopup1");
+        popup.classList.toggle("show");
+    }
+
+    function myFunction2() {
+        var popup = document.getElementById("myPopup2");
+        popup.classList.toggle("show");
+    }
+    function myFunction3() {
+        var popup = document.getElementById("myPopup3");
+        popup.classList.toggle("show");
+    }
+    function myFunction4() {
+        var popup = document.getElementById("myPopup4");
+        popup.classList.toggle("show");
+    }
+</script>

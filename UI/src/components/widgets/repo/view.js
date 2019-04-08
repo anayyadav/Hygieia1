@@ -8,7 +8,6 @@
     RepoViewController.$inject = ['$q', '$scope','codeRepoData', 'pullRepoData', 'issueRepoData', 'collectorData', '$uibModal'];
     function RepoViewController($q, $scope, codeRepoData, pullRepoData, issueRepoData, collectorData, $uibModal) {
         var ctrl = this;
-
         ctrl.combinedChartOptions = {
             plugins: [
                 Chartist.plugins.gridBoundaries(),
@@ -121,7 +120,7 @@
             commits = [];
             groupedCommitData = [];
             // get total commits by day
-            var groups = _(data).sortBy('timestamp')
+            var groups = _(data).sortBy('scmCommitTimestamp')
                 .groupBy(function (item) {
                     return -1 * Math.floor(moment.duration(moment().diff(moment(item.scmCommitTimestamp))).asDays());
                 }).value();

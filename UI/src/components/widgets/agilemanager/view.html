@@ -1,34 +1,108 @@
 <style>
-    table.scroll {
-        border-spacing: 0;
+    .popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
-    table.scroll tbody,
-    table.scroll thead {
-        display: block;
+
+    /* The actual popup */
+    .popup .popuptext {
+        visibility: hidden;
+        width: 160px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -80px;
     }
-    thead tr th {
-        height: 30px;
-        line-height: 30px;
-        /* text-align: left; */
+
+    /* Popup arrow */
+    .popup .popuptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
     }
-    table.scroll tbody {
-        height: 100px;
-        overflow-y: auto;
-        overflow-x: hidden;
+
+    /* Toggle this class - hide and show the popup */
+    .popup .show {
+        visibility: visible;
+        -webkit-animation: fadeIn 1s;
+        animation: fadeIn 1s;
     }
-    tbody td:last-child,
-    thead th:last-child {
-        border-right: none;
+
+    /* Add animation (fade in the popup) */
+    @-webkit-keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
     }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
     .button {
-        background-color: black;
+        display: inline-block;
+        border-radius: 4px;
+        background-color: white;
         border: none;
         color: black;
         text-align: center;
-        font-size: 16px;
-        margin: 4px 2px;
+        padding: 8px;
+        transition: all 0.5s;
         cursor: pointer;
+        margin: 5px;
     }
+
+    .button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+    }
+
+    .button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+    }
+
+    .button:hover span {
+        padding-right: 25px;
+    }
+
+    .button:hover span:after {
+        opacity: 1;
+        right: 0;
+    }
+
     .modal {
         display: none;
         /* Hidden by default */
@@ -51,6 +125,7 @@
         background-color: rgba(0, 0, 0, 0.4);
         /* Black w/ opacity */
     }
+
     /* Modal Content */
     .modal-content {
         background-color: white;
@@ -60,6 +135,7 @@
         border: 1px solid #888;
         width: 80%;
     }
+
     /* The Close Button */
     .close {
         color: black;
@@ -67,193 +143,315 @@
         font-size: 28px;
         font-weight: bold;
     }
+
     .close:hover,
     .close:focus {
         color: #000;
         text-decoration: none;
         cursor: pointer;
     }
+	
+
 </style>
 
 
 <div class="feature-view">
 
-    <div class="widget-body">
-        <div class="col-xs-9.5 text-standard-sm dash-overflow " ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamRelease">
-            Project: <em>{{item.releasename}}</em>
-        </div>
-        <div class="col-xs-9.5 text-standard-sm dash-overflow">
-            Team: <em>All</em>
-        </div>
-    
-        <div style="text-align:right">
-            <button id="myGV" style="color :black">Group Velocity</button>
-            <button id="myBtn" style="color :black">Release Burn Down Chart</button>
-        </div>
-    </div>
-    <div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="widget-detail-heading">
-                <div class="col-xs-9.5 text-standard-sm dash-overflow " ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamRelease">
-                    Release: <em>{{item.releasename}}</em>
-                </div>
-                <div class="col-xs-9.5 text-standard-sm dash-overflow">
-                    Team: <em>All</em>
-                </div>
-            </div>
-            <br>
-            <div id="chartContainer" class="widget-detail-body">
-                <canvas id="myChart" style="display: block; width: 500px; height: 150px;"></canvas>
-            </div>
-        </div>
-    </div>
+    <div class="widget-body " id="left" style=" margin:0; ">
 
-    <div id="myModal1" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="widget-detail-heading">
-                <div class="col-xs-9.5 text-standard-sm dash-overflow " ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamRelease">
-                    Release: <em>{{item.releasename}}</em>
-                </div>
-                <div class="col-xs-9.5 text-standard-sm dash-overflow">
-                    Team: <em>All</em>
-                </div>
-            </div>
-            <br>
-            <div id="chartContainer" class="widget-detail-body">
-                <canvas id="myChart2" style="display: block; width: 500px; height: 150px;"></canvas>
+        <div class="widget-body">
+            <!-- <label style=" margin-left:180px;">View in AGM</label> -->
+            <div ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamRelease">
+                <label >Release Status</label>
+                <a style=" color:white;float: right;" href="{{item.url}}" target="_blank">
+                    View in AGM <span class="fa fa-angle-right"></span>
+                </a>
             </div>
         </div>
-    </div>
-
-
-    <div id="left" style=" margin:0;">
-        <label style="text-align:left;width: 100%">Release Status</label>
-        <div class="widget-body" fit-text=".build-summary-count > span" fit-text-max="40">
+        <div class="widget-body left " fit-text=".build-summary-count > span" fit-text-max="40">
             <div class="row" ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamRelease">
-                <div class="col-xs-4">
-                    <div><label class="align-left">Story Cards</label></div>
-                    <div><label class="align-left">Status</label> </div> 
+                <div class="col-xs-3">
+                    <div><label class="align-left">Cards</label></div>
+                    <div><label class="align-left">Status</label> </div>
                 </div>
                 <div class="col-xs-2">
                     <div class=" story-open">
-                        <span>{{item.status.New}}</span>
+                        <span>{{item.ne}}</span>
                     </div>
                     <div>New</div>
                 </div>
                 <div class="col-xs-2">
                     <div class=" story-wip">
-                        <span>{{item.status.In_Progress}}</span>
+                        <span>{{item.In_Progress}}</span>
                     </div>
                     <div>WIP</div>
                 </div>
                 <div class="col-xs-2">
                     <div class=" story-wip">
-                        <span>{{item.status.Intesting}}</span>
+                        <span>{{item.In_testing}}</span>
                     </div>
                     <div>Testing</div>
                 </div>
                 <div class="col-xs-2">
-                        <div class=" story-done">
-                            <span>{{item.status.Done}}</span>
-                        </div>
-                        <div>Done</div>
+                    <div class=" story-done">
+                        <span>{{item.Done}}</span>
                     </div>
+                    <div>Done</div>
+                </div>
+				<div class="col-xs-1" ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamSpikedata">
+                    <div>
+                        <span style="color:red;">{{item.spikeCount}}</span>
+                    </div>
+                    <div style="color:red;">Spike</div>
+                </div>
+				
             </div>
         </div>
     </div>
-    <br>
+	<br>
+    <div  class="widget-body " id="left" style=" margin:0;" ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamCurrentSprint">
 
-    <div class="widget-body" id="table-wrapper">
-        <div>
-            <div class="widget-body">
-                    
-                <!-- <label style=" margin-left:180px;">View in AGM</label> -->
-                <div ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamRelease">
-                        <label>Feature Status</label>
-                        <a style=" color:white;margin-left:190px;" href="{{item.status.Url}}" target="_blank">
-                            View in AGM <span class="fa fa-angle-right"></span>
-                        </a>
+        <label style="text-align:left;width: 100%">Current {{item.sprintname}} Status</label>
+
+        <div class="widget-body left" fit-text=".build-summary-count > span" fit-text-max="40">
+            <div class="row" ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamCurrentSprint">
+                <div class="col-xs-3">
+                    <div><label class="align-left">Cards</label></div>
+                    <div><label class="align-left">Status</label> </div>
                 </div>
-                
+                <div class="col-xs-2">
+                    <div class=" story-open">
+                        <span>{{item.ne}}</span>
+                    </div>
+                    <div>New</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.In_Progress}}</span>
+                    </div>
+                    <div>WIP</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.In_testing}}</span>
+                    </div>
+                    <div>Testing</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-done">
+                        <span>{{item.Done}}</span>
+                    </div>
+                    <div>Done</div>
+                </div>
             </div>
-            <table class=" table scroll">
-                <thead> 
-                    <tr class="dash-row">
-                        <th class="server-count align-left" width="80%">Name</th>
-                        <th class="server-count align-left">Done</th>
-                        <th class="server-count align-left">New</th>
-                        <th class="server-count align-left" width="100%">WIP
-                            <!-- <select ng-model="agileManagerView.agileManagerUniqueIds.selectedreleaseId" ng-change="agileManagerView.GetFilterBy('releaseid',agileManagerView.agileManagerUniqueIds.selectedreleaseId)" autofocus>
-                    <option value="">All</option>
-                    <option ng-repeat="item in agileManagerView.agileManagerUniqueIds.releaseid" value="{{item}}">{{item}}</option>
-                </select>  -->
-                        </th>
-                    </tr>
-                </thead>
+        </div>
 
-                <tbody>
-                    <tr class="dash-row clickable" ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamFeature">
+    </div>
+	<br>
+	<div class="widget-body ">
+        <ul class="nav nav-tabs">
+            <li class="text-standard auth-modal-tab" ng-repeat="tab in agileManagerView.minitabs"
+                ng-click="agileManagerView.miniToggleView($index)"
+                ng-class="tab.name == agileManagerView.miniWidgetView ? 'active' : ''">
+                <a class="textColor-Performance" data-toggle="tab">{{tab.name}}</a>
+            </li>
+            </span>
+        </ul>
+    </div>
+	
+	<div class="widget-body ">
+	<div class="container-fluid" ng-if="agileManagerView.miniWidgetView == agileManagerView.tab1">
+	<br>
+    <div id="left" style=" margin:0;" ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamFirstnext">
+	
+        <label style="text-align:left;width: 100%">{{item.sprintname}} Status</label>
 
-                        <td class="server-count align-left" width="60%">
-                            {{item.featurename}}
+        <div class="widget-body left" fit-text=".build-summary-count > span" fit-text-max="40">
+            <div class="row" ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamFirstnext">
+                <div class="col-xs-3">
+                    <div><label class="align-left">Cards</label></div>
+                    <div><label class="align-left">Status</label> </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-open">
+                        <span>{{item.ne}}</span>
+                    </div>
+                    <div>New</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.In_Progress}}</span>
+                    </div>
+                    <div>WIP</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.In_testing}}</span>
+                    </div>
+                    <div>Testing</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-done">
+                        <span>{{item.Done}}</span>
+                    </div>
+                    <div>Done</div>
+                </div>
+            </div>
+        </div>
 
-                        </td>
+    </div>
+    </div>
+	
+	<div class="container-fluid"  ng-if="agileManagerView.miniWidgetView == agileManagerView.tab2">
+	<br>
+	<div id="left" style=" margin:0;" ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamSecondnext">
+        <label style="text-align:left;width: 100%">{{item.sprintname}} Status</label>
 
-                        <td class="server-count align-left">
-                            {{item.status.Done}}
+        <div class="widget-body left" fit-text=".build-summary-count > span" fit-text-max="40">
+            <div class="row" ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamSecondnext">
+                <div class="col-xs-3">
+                    <div><label class="align-left">Cards</label></div>
+                    <div><label class="align-left">Status</label> </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-open">
+                        <span>{{item.ne}}</span>
+                    </div>
+                    <div>New</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.In_Progress}}</span>
+                    </div>
+                    <div>WIP</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.In_testing}}</span>
+                    </div>
+                    <div>Testing</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-done">
+                        <span>{{item.Done}}</span>
+                    </div>
+                    <div>Done</div>
+                </div>
+            </div>
+        </div>
 
-                        </td>
+    </div>
+    </div>
+	<div class="container-fluid" ng-if="agileManagerView.miniWidgetView == agileManagerView.tab3">
+	<br>
+	<div id="left" style=" margin:0;" ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamThirdnext">
+        <label style="text-align:left;width: 100%">{{item.sprintname}} Status</label>
 
-                        <td class="server-count align-left">
-                            {{item.status.New}}
+        <div class="widget-body left" fit-text=".build-summary-count > span" fit-text-max="40">
+            <div class="row" ng-repeat="item in agileManagerView.copyAgileManagerDetails[0].hpamThirdnext">
+                <div class="col-xs-3">
+                    <div><label class="align-left">Cards</label></div>
+                    <div><label class="align-left">Status</label> </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-open">
+                        <span>{{item.ne}}</span>
+                    </div>
+                    <div>New</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.In_Progress}}</span>
+                    </div>
+                    <div>WIP</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-wip">
+                        <span>{{item.In_testing}}</span>
+                    </div>
+                    <div>Testing</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class=" story-done">
+                        <span>{{item.Done}}</span>
+                    </div>
+                    <div>Done</div>
+                </div>
+            </div>
+        </div>
 
-                        </td>
-                        <td class="server-count align-left">
-                            {{item.status.InProgress}}
+    </div>
+  </div>
+  </div>
+  <br>
+    <div class="widget-body left">
+        <div>
+            
+            <button id="myGV" class="button" style="vertical-align:middle; float: right;"><span>Sprint
+                    Velocity</span></button>
+        </div>
+    </div>
+    <div id="myModal1" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
 
-                        </td>
+            <div class="popup" style=" float:left;" onclick="myFunction12()"> <i class="fa fa-info-circle"
+                    style="font-size:20px"></i>
+                <span class="popuptext" id="myPopup12">Metrics to help teams become predicable in their estimating and
+                    sprint planning.</span>
+            </div>
+            <br>
 
-                    </tr>
-                </tbody>
-            </table>
+            <div id="chartContainer" class="widget-detail-body">
+                <canvas id="myChart2" style="display: block; width: 500px; height: 150px;"></canvas>
+            </div>
         </div>
     </div>
 </div>
 <script>
     // Get the modal
-    var modal = document.getElementById('myModal');
+    //var modal = document.getElementById('myModal');
     var modal1 = document.getElementById('myModal1');
     // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
+    //var btn = document.getElementById("myBtn");
     var gv = document.getElementById("myGV");
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-    var span1 = document.getElementsByClassName("close")[1];
+    //var span = document.getElementsByClassName("close")[0];
+    var span1 = document.getElementsByClassName("close")[0];
     // When the user clicks the button, open the modal 
-    btn.onclick = function () {
-        modal.style.display = "block";
-    }
+    // btn.onclick = function () {
+    //     modal.style.display = "block";
+    // }
     gv.onclick = function () {
         modal1.style.display = "block";
     }
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modal.style.display = "none";
-    }
+    // span.onclick = function () {
+    //     modal.style.display = "none";
+    // }
     span1.onclick = function () {
         modal1.style.display = "none";
     }
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
+        // if (event.target == modal) {
+        //     modal.style.display = "none";
+        // }
         if (event.target == modal1) {
             modal1.style.display = "none";
         }
+    }
+
+
+    // When the user clicks on div, open the popup
+    //  function myFunction11() {
+    //     var popup = document.getElementById("myPopup11");
+    //     popup.classList.toggle("show");
+    // }
+
+    function myFunction12() {
+        var popup = document.getElementById("myPopup12");
+        popup.classList.toggle("show");
     }
 </script>

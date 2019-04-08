@@ -1,0 +1,17 @@
+<widget-modal widget-modal-title="Qualit-AgileManager Widget" class="build-config" ng-init="qaWidget.load()">
+    <form name="buildConfigForm" role="form" ng-submit="qaWidget.submit(buildConfigForm.$valid,qaWidget.collectorItemId)"
+        novalidate="novalidate">
+        
+            <form-group class="text-center" select="WorkspaceId" errors="{required: 'Please Select A WorkspaceName'}" style="width:400px">
+                <label class="modal-label">Select Workspace Name </label>
+                <select type="text" name="collectorItemId" class="form-control" ng-model="qaWidget.selectedworkspaceIds"
+                    typeahead-no-results="noResults" required>
+                    <option ng-repeat="item in qaWidget.agileManagerUniqueIds.workspaceid" value="{{item}}">{{item}}</option>
+                </select>
+        </form-group>
+        <div class="button-row row text-center">
+            <button type="submit" class="btn btn-primary btn-wide">Save</button>
+        </div>
+    </form>`
+
+</widget-modal>

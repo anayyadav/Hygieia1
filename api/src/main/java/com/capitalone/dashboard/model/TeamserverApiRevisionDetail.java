@@ -1,60 +1,66 @@
 package com.capitalone.dashboard.model;
 
-import org.bson.types.ObjectId;
 
 public class TeamserverApiRevisionDetail {
-	private int number;
-	private String commitmessage;
-	private String author;
-	private String mendixversion;
-	private String date;
-	private ObjectId id;
+	
 
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-	public int getNumber() {
-		return number;
+	private String branchname ;
+	private String scmCommitLog;
+	private String scmAuthor ;
+	private String appname;
+	private Long scmCommitTimestamp;
+	private Long timestamp;
+	private int scmRevisionNumber ;
+	private boolean firstEverCommit;
+	public String getBranchname() {
+		return branchname;
 	}
-
-	public void setNumber(int number) {
-		this.number = number;
+	public void setBranchname(String branchname) {
+		this.branchname = branchname;
 	}
-
-	public String getCommitmessage() {
-		return commitmessage;
+	public String getScmCommitLog() {
+		return scmCommitLog;
 	}
-
-	public void setCommitmessage(String commitmessage) {
-		this.commitmessage = commitmessage;
+	public void setScmCommitLog(String scmCommitLog) {
+		this.scmCommitLog = scmCommitLog;
 	}
-
-	public String getAuthor() {
-		return author;
+	public String getScmAuthor() {
+		return scmAuthor;
 	}
-
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setScmAuthor(String scmAuthor) {
+		this.scmAuthor = scmAuthor;
 	}
-
-	public String getMendixversion() {
-		return mendixversion;
+	public String getAppname() {
+		return appname;
 	}
-
-	public void setMendixversion(String mendixversion) {
-		this.mendixversion = mendixversion;
+	public void setAppname(String appname) {
+		this.appname = appname;
 	}
-
-	public String getDate() {
-		return date;
+	public Long getScmCommitTimestamp() {
+		return scmCommitTimestamp;
 	}
-
-	public void setDate(String date) {
-		this.date = date;
+	public void setScmCommitTimestamp(Long scmCommitTimestamp) {
+		this.scmCommitTimestamp = scmCommitTimestamp;
 	}
+	public Long getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp(Long timestamp) {
+		this.timestamp = timestamp;
+	}
+	public int getScmRevisionNumber() {
+		return scmRevisionNumber;
+	}
+	public void setScmRevisionNumber(int scmRevisionNumber) {
+		this.scmRevisionNumber = scmRevisionNumber;
+	}
+	public boolean isFirstEverCommit() {
+		return firstEverCommit;
+	}
+	public void setFirstEverCommit(boolean firstEverCommit) {
+		this.firstEverCommit = firstEverCommit;
+	}
+	
+	
 
 }

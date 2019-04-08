@@ -9,21 +9,25 @@
         .module(HygieiaConfig.module)
         .controller('CapOneTemplateController', CapOneTemplateController);
 
-    CapOneTemplateController.$inject = [];
     function CapOneTemplateController() {
         var ctrl = this;
 
         ctrl.tabs = [
             { name: "Widget"},
             { name: "Pipeline"},
-            { name: "Cloud"},
-            { name: "Mendix"}
+            { name: "Cloud"}
         ];
 
 
         ctrl.minitabs = [
-            { name: "Quality"},
-            { name: "Performance"}
+            { name: "Performance"},
+			{ name: "Quality"},
+			{ name: "Defect Status"}
+        ];
+
+        ctrl.miniFeaturetabs = [
+            { name: "Story Cards"},
+            { name: "Team"}
 
         ];
 
@@ -37,6 +41,10 @@
             ctrl.miniWidgetView = typeof ctrl.minitabs[index] === 'undefined' ? ctrl.minitabs[0].name : ctrl.minitabs[index].name;
         };
 
+        ctrl.miniFeatureWidgetView = ctrl.miniFeaturetabs[0].name;
+        ctrl.miniFeatureToggleView = function (index) {
+            ctrl.miniFeatureWidgetView = typeof ctrl.miniFeaturetabs[index] === 'undefined' ? ctrl.miniFeaturetabs[0].name : ctrl.miniFeaturetabs[index].name;
+        };
 
     }
 })();

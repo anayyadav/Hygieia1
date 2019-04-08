@@ -1,0 +1,27 @@
+<div class="deploy-view">
+    <table class="table">
+        <tr class="dash-row clickable" ng-repeat="environment in deploymView.environments" ng-click="deploymView.showDetail(environment)">
+            <td>
+                <span
+                        dash-status="{{environment.failedComponents > 0 ? 
+                        	(environment.ignoreFailure? deploymView.statuses.IGNORE : deploymView.statuses.FAIL) : deploymView.statuses.PASS}}"
+                        dash-status-fail-text="{{environment.failedComponents}}"
+                        dash-status-ignore-text="{{environment.failedComponents}}"></span>
+            </td>
+            <td class="dash-overflow environment-name">
+                {{environment.name}}
+            </td>
+            <td class="text-standard-date">
+                {{environment.lastUpdated | fromNow}}
+            </td>
+            <td class="server-count" ng-class="{'servers-up' : environment.serverUpCount > 0}">
+                {{environment.serverUpCount}}
+                <span class="fa fa-arrow-up"></span>
+            </td>
+            <td class="server-count" ng-class="{'servers-down' : environment.serverDownCount > 0}">
+                {{environment.serverDownCount}}
+                <span class="fa fa-arrow-down"></span>
+            </td>
+        </tr>
+    </table>
+</div>
