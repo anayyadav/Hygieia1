@@ -54,24 +54,36 @@ def get_data(backlog_data,s_id,appID):
 
 def getstatus(backlog_data,s_id,appID):
 	new=0
+	new_SP = 0 
 	inp=0
+	inp_SP =0 
 	intesting=0
+	intesting_SP = 0
 	done=0
+	done_SP =0 
 	for j in range(len(backlog_data)):
 			if not(backlog_data[j]['story_points'] == None) and not(backlog_data[j]['sprint_id'] ==None) and not(backlog_data[j]['application_id'] ==None):
 				if(backlog_data[j]['sprint_id']['id']==s_id) and (backlog_data[j]['application_id']['id']==appID) and (backlog_data[j]['status'] == 'In Progress'):
 					inp= inp+1
+					inp_SP =inp_SP + backlog_data[j]['story_points']
 				elif(backlog_data[j]['sprint_id']['id']==s_id) and (backlog_data[j]['application_id']['id']==appID) and (backlog_data[j]['status'] == 'New'):
 					new = new+1
+					new_SP =new_SP +  backlog_data[j]['story_points']
 				elif(backlog_data[j]['sprint_id']['id']==s_id) and (backlog_data[j]['application_id']['id']==appID) and (backlog_data[j]['status'] == 'Done'):
 					done =done+1
+					done_SP =done_SP  +  backlog_data[j]['story_points']
 				elif(backlog_data[j]['sprint_id']['id']==s_id) and (backlog_data[j]['application_id']['id']==appID) and (backlog_data[j]['status'] == 'In Testing'):
 					intesting = intesting+1
+					intesting_SP =intesting_SP + backlog_data[j]['story_points'] 
 	result={}
 	result["New"]=new
+	result["new_SP"]=new_SP
 	result["In_Progress"]=inp
+	result["inp_SP"]=inp_SP
 	result["In_testing"]=intesting
+	result["intesting_SP"]= intesting_SP
 	result['Done']=done
+	result["done_SP"]= done_SP
 	return result
 
 def sortData(s_data,gv_data):

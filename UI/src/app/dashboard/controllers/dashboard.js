@@ -58,7 +58,6 @@
             starHeight : 40,
             class : "score"
         };
-
-        console.log('Dashboard', dashboard);
+		
     }
 })();

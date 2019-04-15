@@ -16,25 +16,7 @@
         ctrl.agileManagerDetails = [];    
         ctrl.copyAgileManagerDetails = [];
         ctrl.copyagileManagerDetails = [];
-		//$scope.tab1="";
-		ctrl.tab1="";
-		ctrl.tab2="";
-		ctrl.tab3="";
-
 		
-		
-        ctrl.GetFilterBy = function (filterBy, value) {
-
-            var filtered2 = ctrl.agileManagerDetails[0].hpamRelease.filter(function (item) {
-                if (item[filterBy] != null) {
-                    return item[filterBy].id.toString().toLowerCase().indexOf(value) > -1;
-                }
-                else {
-                    return null;
-                }
-            });
-        }
-
 
         ctrl.GroupVelocity = function () {
             var dataList = [];
@@ -43,9 +25,6 @@
             })
             ctrl.loadgroupVelocityChart(dataList)
         }
-
-
-
 
         ctrl.loadgroupVelocityChart = function (dataList) {
             let data = [];
@@ -160,7 +139,8 @@
         ctrl.loadReleaseStatus = function (agileManagerDetails) {
             var output = [];
             var n = 0;
-            var done = 0, inprogress = 0, intesting = 0, url;
+			var nSP = 0 ;
+            var done = 0, inprogress = 0, intesting = 0, url, doneSP =0 ,inprogressSP =0 ,intestingSP=0 ;
             var size = ($scope.widgetConfig.options.appID).length;
 
             for (var i = 0; i < size; i++) {
@@ -170,14 +150,18 @@
                 });
 
                 n = n + f[0]["status"].New;
+				nSP= nSP + f[0]["status"].newSP
                 done = done + f[0]["status"].Done;
+				doneSP = doneSP +f[0]["status"].doneSP
                 inprogress = inprogress + f[0]["status"].In_Progress;
+				inprogressSP = inprogressSP + f[0]["status"].inpSP
                 intesting = intesting + f[0]["status"].In_testing;
+				intestingSP= intestingSP + f[0]["status"].intestingSP
                 url = f[0]["status"].Url;
 
 
             }
-            output.push({ ne: n, Done: done, In_Progress: inprogress, In_testing: intesting, url: url });
+            output.push({ ne: n,nSP:nSP,doneSP: doneSP,inprogressSP:inprogressSP,intestingSP:intestingSP, Done: done, In_Progress: inprogress, In_testing: intesting, url: url });
             return output;
         }
 
@@ -185,7 +169,8 @@
         ctrl.loadCurrentSprintStatus = function (agileManagerDetails) {
             var output = [];
             var n = 0;
-            var done = 0, inprogress = 0, intesting = 0;
+			var nSP = 0 ;
+            var done = 0, inprogress = 0, intesting = 0, url, doneSP =0 ,inprogressSP =0 ,intestingSP=0 ;
             var sprintname;
             var size = ($scope.widgetConfig.options.appID).length;
 
@@ -194,21 +179,26 @@
                 f = agileManagerDetails[0].hpamCurrentSprint.filter(function (item) {
                     return item.releaseid == $scope.widgetConfig.options.releaseid && item.appID == $scope.widgetConfig.options.appID[i];
                 });
-
-                sprintname = f[0].sprintname;
+				sprintname = f[0].sprintname;
+				
                 n = n + f[0]["status"].New;
+				nSP= nSP + f[0]["status"].new_SP
                 done = done + f[0]["status"].Done;
+				doneSP = doneSP +f[0]["status"].done_SP
                 inprogress = inprogress + f[0]["status"].In_Progress;
+				inprogressSP = inprogressSP + f[0]["status"].inp_SP
                 intesting = intesting + f[0]["status"].In_testing;
+				intestingSP= intestingSP + f[0]["status"].intesting_SP
             }
-            output.push({ ne: n, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
+            output.push({ ne: n,nSP:nSP,doneSP: doneSP,inprogressSP:inprogressSP,intestingSP:intestingSP, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
             return output;
         }
 
         ctrl.loadFirstnextSprintStatus = function (agileManagerDetails) {
             var output = [];
             var n = 0;
-            var done = 0, inprogress = 0, intesting = 0;
+			var nSP = 0 ;
+            var done = 0, inprogress = 0, intesting = 0, url, doneSP =0 ,inprogressSP =0 ,intestingSP=0 ;
             var sprintname;
             var size = ($scope.widgetConfig.options.appID).length;
 
@@ -222,18 +212,23 @@
 				
 				//ctrl.tab1= sprintname;
                 n = n + f[0]["status"].New;
+				nSP= nSP + f[0]["status"].new_SP
                 done = done + f[0]["status"].Done;
+				doneSP = doneSP +f[0]["status"].done_SP
                 inprogress = inprogress + f[0]["status"].In_Progress;
+				inprogressSP = inprogressSP + f[0]["status"].inp_SP
                 intesting = intesting + f[0]["status"].In_testing;
+				intestingSP= intestingSP + f[0]["status"].intesting_SP
             }
-            output.push({ ne: n, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
+            output.push({ ne: n,nSP:nSP,doneSP: doneSP,inprogressSP:inprogressSP,intestingSP:intestingSP, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
             return output;
         }
 
         ctrl.loadSecondnextSprintStatus = function (agileManagerDetails) {
             var output = [];
             var n = 0;
-            var done = 0, inprogress = 0, intesting = 0;
+			var nSP = 0 ;
+            var done = 0, inprogress = 0, intesting = 0, url, doneSP =0 ,inprogressSP =0 ,intestingSP=0 ;
             var sprintname;
             var size = ($scope.widgetConfig.options.appID).length;
 
@@ -246,18 +241,23 @@
                 sprintname = f[0].sprintname;
 				//ctrl.tab2= sprintname;
                 n = n + f[0]["status"].New;
+				nSP= nSP + f[0]["status"].new_SP
                 done = done + f[0]["status"].Done;
+				doneSP = doneSP +f[0]["status"].done_SP
                 inprogress = inprogress + f[0]["status"].In_Progress;
+				inprogressSP = inprogressSP + f[0]["status"].inp_SP
                 intesting = intesting + f[0]["status"].In_testing;
+				intestingSP= intestingSP + f[0]["status"].intesting_SP
             }
-            output.push({ ne: n, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
+            output.push({ ne: n,nSP:nSP,doneSP: doneSP,inprogressSP:inprogressSP,intestingSP:intestingSP, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
             return output;
         }
 
         ctrl.loadThirdnextSprintStatus = function (agileManagerDetails) {
             var output = [];
             var n = 0;
-            var done = 0, inprogress = 0, intesting = 0;
+			var nSP = 0 ;
+            var done = 0, inprogress = 0, intesting = 0, url, doneSP =0 ,inprogressSP =0 ,intestingSP=0 ;
             var sprintname;
             var size = ($scope.widgetConfig.options.appID).length;
 
@@ -270,11 +270,15 @@
                 sprintname = f[0].sprintname;
 				//ctrl.tab3= sprintname;
                 n = n + f[0]["status"].New;
+				nSP= nSP + f[0]["status"].new_SP
                 done = done + f[0]["status"].Done;
+				doneSP = doneSP +f[0]["status"].done_SP
                 inprogress = inprogress + f[0]["status"].In_Progress;
+				inprogressSP = inprogressSP + f[0]["status"].inp_SP
                 intesting = intesting + f[0]["status"].In_testing;
+				intestingSP= intestingSP + f[0]["status"].intesting_SP
             }
-            output.push({ ne: n, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
+            output.push({ ne: n,nSP:nSP,doneSP: doneSP,inprogressSP:inprogressSP,intestingSP:intestingSP, Done: done, In_Progress: inprogress, In_testing: intesting, sprintname: sprintname });
             return output;
         }
 
@@ -282,6 +286,7 @@
         ctrl.loadSpikecards = function (agileManagerDetails) {
             var output = [];
             var spikeCard = 0;
+			var spikePoint = 0
             var size = ($scope.widgetConfig.options.appID).length;
 
             for (var i = 0; i < size; i++) {
@@ -291,8 +296,9 @@
                 });
 
                 spikeCard = spikeCard + f[0].spikeCount;
+				spikePoint = spikePoint + f[0].spikePoints;
             }
-            output.push({ spikeCount: spikeCard });
+            output.push({ spikeCount: spikeCard ,spikePoint: spikePoint });
             return output;
         }
 

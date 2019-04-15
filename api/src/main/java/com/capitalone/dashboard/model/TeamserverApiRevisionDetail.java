@@ -9,9 +9,15 @@ public class TeamserverApiRevisionDetail {
 	private String scmAuthor ;
 	private String appname;
 	private Long scmCommitTimestamp;
-	private Long timestamp;
+	private String timestamp;
 	private int scmRevisionNumber ;
 	private boolean firstEverCommit;
+	public String getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
 	public String getBranchname() {
 		return branchname;
 	}
@@ -42,12 +48,7 @@ public class TeamserverApiRevisionDetail {
 	public void setScmCommitTimestamp(Long scmCommitTimestamp) {
 		this.scmCommitTimestamp = scmCommitTimestamp;
 	}
-	public Long getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Long timestamp) {
-		this.timestamp = timestamp;
-	}
+	
 	public int getScmRevisionNumber() {
 		return scmRevisionNumber;
 	}

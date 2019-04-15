@@ -44,7 +44,7 @@ services:
     depends_on:
       - db
     environment:
-      - UCD_CRON= 0 15 10 * * ?
+      - UCD_CRON= 0 0/1 * * * *
       - UCD_SERVER= https://prducd01:8443
       - UCD_TOKEN= 6b9f6628-3a01-4d89-94ce-eff58aca318e
 

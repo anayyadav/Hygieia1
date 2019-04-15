@@ -10,6 +10,7 @@ import applications
 import releases
 import release_burn_down
 import datetime
+import defectStatus
 from pymongo import MongoClient
 
 # get_access_token will return a token which we will need to pull the data from the server
@@ -39,6 +40,7 @@ def get_data(server_url,client_id,client_secret):
 	firstnext=[]
 	secondnext=[]
 	thirdnext=[]
+	defectS=[]
 	spikedata=[]
 	r_burn=[]
 	s_sprint=[]
@@ -52,6 +54,7 @@ def get_data(server_url,client_id,client_secret):
 		sprint_data = sprints.get_sprints(server_url, access_token,wid,wname)
 		release_data = releases.get_releases_items(server_url, access_token,wid,wname)
 		app_data = applications.get_applications(server_url,access_token,wid)
+		defectS = defectS + defectStatus.getDefectStatus(app_data,release_data,sprint_data,backlog_data)
 		data =  applications.get_defect(server_url, access_token,wid,wname,backlog_data,app_data)
 		defectRej = defectRej + applications.defectRejectionRatio(server_url, access_token,wid,wname,app_data,data)
 		defectAge = defectAge + applications.defectAgeing(server_url, access_token,wid,wname,data)
@@ -83,6 +86,8 @@ def get_data(server_url,client_id,client_secret):
 	final_data["hpamSecondnext"] = secondnext
 	final_data["hpamThirdnext"] =thirdnext
 	final_data["hpamSpikedata"] = spikedata
+	final_data["hpamDefectdata"] = defectS
+	final_data["hpamCurrentSprintDefect"] = get_currentSprint(defectS)
 	
 	db = conn.dashboard
 	print db

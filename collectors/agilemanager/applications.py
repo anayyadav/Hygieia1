@@ -48,7 +48,6 @@ def get_defect(server_url, access_token,workspaceid,wname,backlog_data,app_data)
 				b_["app_id"] = "None"
 				b_["app_name"] = "None"
 			data.append(b_)
-	
 	return data
 	
 def test_defectRejectionRatio(data,appId):

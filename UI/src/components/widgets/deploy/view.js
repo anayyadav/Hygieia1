@@ -14,7 +14,6 @@
 		
         ctrl.environments = [];
         ctrl.statuses = DashStatus;
-		console.log(ctrl.statuses)
         ctrl.ignoreEnvironmentFailuresRegex=/^$/;
         if ($scope.widgetConfig.options.ignoreRegex !== undefined && $scope.widgetConfig.options.ignoreRegex !== null && $scope.widgetConfig.options.ignoreRegex !== '') {
             ctrl.ignoreEnvironmentFailuresRegex=new RegExp($scope.widgetConfig.options.ignoreRegex.replace(/^"(.*)"$/, '$1'));
@@ -27,7 +26,6 @@
             var deferred = $q.defer();
             deployData.details($scope.widgetConfig.componentId).then(function(data) {
                 processResponse(data.result);
-				console.log(data.result)
                 deferred.resolve(data.lastUpdated);
             });
             return deferred.promise;

@@ -21,8 +21,7 @@
 
         ctrl.minitabs = [
             { name: "Performance"},
-			{ name: "Quality"},
-			{ name: "Defect Status"}
+			{ name: "Quality"}
         ];
 
         ctrl.miniFeaturetabs = [

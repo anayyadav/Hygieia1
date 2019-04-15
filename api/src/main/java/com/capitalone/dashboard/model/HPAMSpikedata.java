@@ -8,7 +8,14 @@ public class HPAMSpikedata {
 		private String appname;
 		private String appID;
 		private int spikeCount;
+		private int spikePoints;
 		
+		public int getSpikePoints() {
+			return spikePoints;
+		}
+		public void setSpikePoints(int spikePoints) {
+			this.spikePoints = spikePoints;
+		}
 		public String getReleaseid() {
 			return releaseid;
 		}

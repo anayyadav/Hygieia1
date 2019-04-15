@@ -76,9 +76,9 @@
                     return item.appname == $scope.widgetConfig.options.appname && item.branchname == $scope.widgetConfig.options.branchname;
                 });
 
-                resultData = removeDumplicateValue(commitData)
+                
 			
-                processCommitResponse(resultData, params.numberOfDays);
+                processCommitResponse(commitData, params.numberOfDays);
                 processPullResponse(resultData, params.numberOfDays);
                 processIssueResponse(resultData, params.numberOfDays);
                 ctrl.lastUpdated = data.lastUpdated;
@@ -124,11 +124,12 @@
             commits = [];
             groupedCommitData = [];
             // get total commits by day
-            var groups = _(data).sortBy('timestamp')
-                .groupBy(function (item) {
+			//console.log(data)
+            var groups = _(data).groupBy(function (item) {
+			
                     return -1 * Math.floor(moment.duration(moment().diff(moment(item.scmCommitTimestamp))).asDays());
                 }).value();
-
+			//console.log(groups)
             for (var x = -1 * numberOfDays + 1; x <= 0; x++) {
                 if (groups[x]) {
                     commits.push(groups[x].length);
