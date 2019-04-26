@@ -233,27 +233,32 @@
                 // get team dashboard details and see if build and commit widgets are available
                 var dashId = config.dashBoardId;
                 var buildInd = false;
-                var repoInd = false;
+                // = false;
+				var teamserverInd = false;
+				var agmInd= false;
+				var defectInd= false;
                 var widgets=[];
                 dashboardData.detail(dashId).then(function(result) {
                     var res = result;
                      widgets = result.widgets;
                     _(widgets).forEach(function (widget) {
-                        if(widget.name == "build") buildInd = true;
-                        if(widget.name =="repo") repoInd = true;
-
+                        if(widget.name == "mendixbuild") buildInd = true;
+                        if(widget.name =="mendixteamserver") teamserverInd = true;
+						if(widget.name == "Story Cards") teamserverInd = true;
+			
                     });
-
+					
                     // prompt a message if team is already added or add to prod dashboard otherwise.
                     if(itemInd){
                         swal(config.name+' dashboard added already');
-                    }else if(widgets==null || !buildInd || !repoInd){
+                    }else if(widgets==null || !buildInd || !teamserverInd){
                         swal('Configure Build and Code Repository for '+config.name+' before adding to Product Dashboard');
                     }else{
                         // add our new config to the array
                         options.teams.push(config);
 
                         updateWidgetOptions(options);
+												
                     }
                 });
             });
@@ -324,7 +329,8 @@
             if(!teamStageHasCommits(team, stage)) {
                 return false;
             }
-
+			console.log(team)
+			console.log(stage)
             $uibModal.open({
                 templateUrl: 'components/widgets/product/environment-commits/environment-commits.html',
                 controller: 'productEnvironmentCommitController',

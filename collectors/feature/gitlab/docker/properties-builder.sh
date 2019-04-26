@@ -1,48 +1,29 @@
 #!/bin/bash
 
-if [ "$SKIP_PROPERTIES_BUILDER" = true ]; then
-  echo "Skipping properties builder"
-  exit 0
-fi
-  
-if [ "$MONGO_PORT" != "" ]; then
-	# Sample: MONGO_PORT=tcp://172.17.0.20:27017
-	MONGODB_HOST=`echo $MONGO_PORT|sed 's;.*://\([^:]*\):\(.*\);\1;'`
-	MONGODB_PORT=`echo $MONGO_PORT|sed 's;.*://\([^:]*\):\(.*\);\2;'`
-else
-	env
-	echo "ERROR: MONGO_PORT not defined"
-	exit 1
-fi
-
-echo "MONGODB_HOST: $MONGODB_HOST"
-echo "MONGODB_PORT: $MONGODB_PORT"
-
-
 cat > $PROP_FILE <<EOF
 #Database Name
-dbname=${HYGIEIA_API_ENV_SPRING_DATA_MONGODB_DATABASE:-dashboarddb}
+dbname=${DB_DATABASE:-dashboard}
 
 #Database HostName - default is localhost
-dbhost=${MONGODB_HOST:-10.0.1.1}
+dbhost=${DB_HOST:-db}
 
 #Database Port - default is 27017
-dbport=${MONGODB_PORT:-27017}
+dbport=${DB_PORT:-27017}
 
 #Database Username - default is blank
-dbusername=${HYGIEIA_API_ENV_SPRING_DATA_MONGODB_USERNAME:-dashboarduser}
+dbusername=${HYGIEIA_API_ENV_SPRING_DATA_MONGODB_USERNAME:-}
 
 #Database Password - default is blank
-dbpassword=${HYGIEIA_API_ENV_SPRING_DATA_MONGODB_PASSWORD:-dbpassword}
+dbpassword=${HYGIEIA_API_ENV_SPRING_DATA_MONGODB_PASSWORD:-}
 
 #Collector schedule (required)
-gitlab.cron=${GITLAB_CRON:-0 0/5 * * * *}
+gitlab.cron=${GITLAB_CRON:-0 0/1 * * * *}
 
 #Gitlab host (optional, defaults to "gitlab.com")
-gitlab.host=${GITLAB_HOST:-}
+gitlab.host=${GITLAB_HOST:-gitlab.erieinsurance.com}
 
 #Gitlab protocol (optional, defaults to "http")
-gitlab.protocol=${GITLAB_PROTOCOL:-}
+gitlab.protocol=${GITLAB_PROTOCOL:-https}
 
 #Gitlab port (optional, defaults to protocol default port)
 gitlab.port=${GITLAB_PORT:-}
@@ -51,7 +32,7 @@ gitlab.port=${GITLAB_PORT:-}
 gitlab.path=${GITLAB_PATH:-}
   
 #Gitlab API Token (required, must be an admin account to retrieve all teams for the instance of gitlab.  If not admin, will only retrieve teams the user belongs to)
-gitlab.apiToken=${GITLAB_API_TOKEN:-}
+gitlab.apiToken=${GITLAB_API_TOKEN:-pX2akBSQv7e2rY6exyTn}
 
 #Gitlab selfSignedCertificate (optional, defaults to false, set to true if your instance of gitlab is running on https without a trusted certificate
 gitlab.selfSignedCertificate=${GITLAB_SELF_SIGNED_CERTIFICATE:-false}

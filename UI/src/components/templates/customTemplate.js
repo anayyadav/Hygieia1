@@ -29,8 +29,7 @@
         ctrl.tabs = [
             {name: "Widget"},
             {name: "Pipeline"},
-            {name: "Cloud"},
-            {name: "Mendix"}
+            {name: "Cloud"}
         ];
         
 
